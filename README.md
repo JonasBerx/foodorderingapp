@@ -10,5 +10,5 @@ Team 0 ~ Food ordering and management application using Python
 7. Profile update
 
 vcs = gitlab
-programming language = Python
+programming language = Python / Flask
 unit test tool = 
