@@ -1,0 +1,42 @@
+body {
+    margin: auto;
+    max-width: 580px;
+    font-size: 14px;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.logo {
+    width: 40px;
+    vertical-align: middle;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+nav li {
+    float: left;
+}
+
+nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 8px 12px;
+    text-decoration: none;
+}
+
+nav li a:hover {
+    background-color: #111;
+}
+
+footer {
+    color: #888;
+    margin-top: 15px;
+    text-align: center;
+    padding: 10px;
+}

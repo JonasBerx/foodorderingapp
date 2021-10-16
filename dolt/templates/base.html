@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ᗺOlt Food</title>
+    <link rel="icon" href="{{ url_for("static", filename="favicon.ico") }}">
+    <link rel="stylesheet" href="{{ url_for("static", filename="style.css") }}" type="text/css">
+    {% endblock %}
+</head>
+<body>
+    <h2>
+        <img alt="ᗺOlt Logo" class="logo" src="{{ url_for("static", filename="images/logo.png") }}">
+        ᗺOlt Food
+    </h2>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for("index") }}">Home</a></li>
+        </ul>
+    </nav>
+    {% block content %}{% endblock %}
+    <footer>
+        <small>&copy; 2021 <a>Team 0</a></small>
+	</footer>
+</body>
+</html>

@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request
+from flask import render_template, request
 
-app = Flask(__name__)
+from dolt import app
 
 
 @app.route("/")
 def index():
-    return render_template("home.html")
+    return render_template("index.html"), 200
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -13,4 +13,4 @@ def login():
     if request.method == "POST":
         return  # Do login
     else:
-        return render_template("login.html")
+        return render_template("login.html"), 200
