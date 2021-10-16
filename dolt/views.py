@@ -10,6 +10,21 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/courier")
+def courier():
+    return render_template("courier.html")
+
+
+@app.route("/employee")
+def employee():
+    return render_template("employee.html")
+
+
+@app.route("/partner")
+def partner():
+    return render_template("partner.html")
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -29,7 +44,15 @@ def login():
         user = User.query.filter(User.username == username).first()
 
         # Check password hash
-        if user and user.validate_password(password):
+        if not user:
+            pass
+        elif not user.validate_password(password):
+            pass
+        elif user.type in {"courier", "employee", "partner"}:
+            login_user(user)
+            flash("Login succeeded")
+            return redirect(url_for(user.type))
+        else:
             login_user(user)
             flash("Login succeeded")
             return redirect(url_for("index"))

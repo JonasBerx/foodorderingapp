@@ -5,6 +5,13 @@ from dolt import db
 
 
 class User(db.Model, UserMixin):
+    type = db.Column(db.String(20))
+
+    __mapper_args__ = {
+        "polymorphic_identity": "user",
+        'polymorphic_on': type
+    }
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(32))
     username = db.Column(db.String(16), unique=True)
@@ -17,5 +24,29 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
 
 
-class Courier(db.Model, UserMixin):
-    pass
+class Courier(User, UserMixin):
+    __mapper_args__ = {
+        "polymorphic_identity": "courier",
+    }
+    id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
+
+
+class Customer(User):
+    __mapper_args__ = {
+        "polymorphic_identity": "customer",
+    }
+    id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
+
+
+class Employee(User):
+    __mapper_args__ = {
+        "polymorphic_identity": "employee",
+    }
+    id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
+
+
+class Partner(User):
+    __mapper_args__ = {
+        "polymorphic_identity": "partner",
+    }
+    id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
