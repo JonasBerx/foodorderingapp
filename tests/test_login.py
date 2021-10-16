@@ -79,6 +79,8 @@ class DoltTestCaseLogin(unittest.TestCase):
         response = self.client.get("/logout", follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertIn("Logout succeeded", data)
+        self.assertNotIn("Logout", data)
+        self.assertNotIn("Settings", data)
 
 
 if __name__ == '__main__':

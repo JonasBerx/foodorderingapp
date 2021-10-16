@@ -34,7 +34,7 @@ def login():
             flash("Login succeeded")
             return redirect(url_for("index"))
 
-        # Wrong password
+        # Wrong login info
         flash("Invalid username or password")
         return redirect(url_for("login"))
 
