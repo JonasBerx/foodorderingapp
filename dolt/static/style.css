@@ -37,7 +37,7 @@ nav li a:hover {
 .login-form  { display: table;      }
 .login-p     { display: table-row;  }
 .login-label { display: table-cell; }
-.login-input { display: table-cell; margin-left: 5px;}
+.login-input { display: table-cell; margin-left: 5px; }
 
 input[type=submit] {
     font-family: inherit;
