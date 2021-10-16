@@ -34,6 +34,37 @@ nav li a:hover {
     background-color: #111;
 }
 
+.login-form  { display: table;      }
+.login-p     { display: table-row;  }
+.login-label { display: table-cell; }
+.login-input { display: table-cell; margin-left: 5px;}
+
+input[type=submit] {
+    font-family: inherit;
+}
+
+input[type=text] input[type=password] {
+    border: 1px solid #eee;
+}
+
+.btn {
+    font-size: 12px;
+    padding: 3px 5px;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    border: 1px solid #555555;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    text-decoration: none;
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+}
+
 footer {
     color: #888;
     margin-top: 15px;
