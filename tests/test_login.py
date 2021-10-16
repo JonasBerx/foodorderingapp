@@ -26,6 +26,14 @@ class DoltTestCaseLogin(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
+    def test_login(self):
+        response = self.client.post("/login", data=dict(
+            username="test",
+            password="12345678"
+        ), follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Login succeeded", data)
+
 
 if __name__ == '__main__':
     unittest.main()
