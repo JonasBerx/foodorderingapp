@@ -1,5 +1,5 @@
 from flask import flash, redirect, render_template, request, url_for
-from flask_login import login_user
+from flask_login import login_user, login_required, logout_user
 
 from dolt import app
 from dolt.models import User
@@ -31,3 +31,11 @@ def login():
         return redirect(url_for("login"))
 
     return render_template("login.html"), 200
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    flash("Logout succeeded")
+    return redirect(url_for("index"))

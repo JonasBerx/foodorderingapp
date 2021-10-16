@@ -17,4 +17,5 @@ Team 0 ~ Food ordering and management application using Python
 - VCS: GitHub
 - Programming Language: Python
 - Framework: Flask
-- Unit Test Tool = unittest
+- Unit Test Tool: unittest
+- TDD protocol track: [GitHub Actions](https://github.com/JonasBerx/foodorderingapp/actions/workflows/python-test.yml)
