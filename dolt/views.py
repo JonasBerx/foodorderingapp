@@ -12,5 +12,5 @@ def index():
 def login():
     if request.method == "POST":
         return  # Do login
-    else:
-        return render_template("login.html"), 200
+
+    return render_template("login.html"), 200
