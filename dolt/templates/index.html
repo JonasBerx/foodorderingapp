@@ -1,4 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if current_user.type == "customer" %}
+<h3>Welcome, dear customer {{ current_user.name }}!</h3>
+{% endif %}
 {% endblock %}

@@ -18,4 +18,49 @@ Team 0 ~ Food ordering and management application using Python
 - Programming Language: Python
 - Framework: Flask
 - Unit Test Tool: unittest
-- TDD protocol track: [GitHub Actions](https://github.com/JonasBerx/foodorderingapp/actions/workflows/python-test.yml)
+- TDD protocol tracking: [GitHub Actions](https://github.com/JonasBerx/foodorderingapp/actions/workflows/python-test.yml)
+
+## How to run the program
+
+### Requirements
+
+- Python: 3.6 or above
+
+### Environment
+
+```bash
+git clone https://github.com/JonasBerx/foodorderingapp.git
+cd foodorderingapp
+python -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+deactivate
+```
+
+### Setup
+
+```bash
+flask mock
+```
+
+### Run
+
+```bash
+flask run
+```
+
+### Test accounts
+
+- Courier:
+    - username: `cus`
+    - password: `12345`
+- Customer:
+    - username: `cus`
+    - password: `123456`
+- Employee:
+    - username: `emp`
+    - password: `1234567`
+- Partner:
+    - username: `par`
+    - password: `12345678`

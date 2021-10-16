@@ -1,7 +1,7 @@
 import unittest
 
 from dolt import app, db
-from dolt.models import User, Courier
+from dolt.models import User, Courier, Customer, Employee, Partner
 
 
 class DoltTestCaseLogin(unittest.TestCase):
@@ -15,10 +15,16 @@ class DoltTestCaseLogin(unittest.TestCase):
 
         user = User(name="Test", username="test") # noqa
         user.set_password("12345678")
-        courier = Courier(name="COU", username="cou") # noqa
-        courier.set_password("87654321")
+        courier = Courier(name="COU", username="cou")  # noqa
+        courier.set_password("12345")
+        customer = Customer(name="CUS", username="cus")  # noqa
+        customer.set_password("123456")
+        employee = Employee(name="EMP", username="emp")  # noqa
+        employee.set_password("1234567")
+        partner = Partner(name="PAR", username="par")  # noqa
+        partner.set_password("12345678")
 
-        db.session.add_all([user, courier])
+        db.session.add_all([user, courier, customer, employee, partner])
         db.session.commit()
 
         self.client = app.test_client()
@@ -104,15 +110,29 @@ class DoltTestCaseLogin(unittest.TestCase):
         self.assertNotIn("Settings", data)
 
     def test_login_role(self):
-        response = self.client.post("/login", data=dict(
-            username="cou",
-            password="87654321"
-        ), follow_redirects=True)
-        data = response.get_data(as_text=True)
-        self.assertIn("Login succeeded", data)
-        self.assertIn("Logout", data)
-        self.assertIn("Settings", data)
-        self.assertIn("Welcome, dear courier!", data)
+        roles = {
+            "courier": "12345",
+            "customer": "123456",
+            "employee": "1234567",
+            "partner": "12345678"
+        }
+
+        for role in roles:
+            response = self.client.post("/login", data=dict(
+                username=role[:3],
+                password=roles[role]
+            ), follow_redirects=True)
+            data = response.get_data(as_text=True)
+            self.assertIn("Login succeeded", data)
+            self.assertIn("Logout", data)
+            self.assertIn("Settings", data)
+            self.assertIn(f"Welcome, dear {role}", data)
+
+            response = self.client.get("/logout", follow_redirects=True)
+            data = response.get_data(as_text=True)
+            self.assertIn("Logout succeeded", data)
+            self.assertNotIn("Logout</a>", data)
+            self.assertNotIn("Settings", data)
 
 
 if __name__ == '__main__':
