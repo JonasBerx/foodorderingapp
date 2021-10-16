@@ -16,9 +16,6 @@ class DoltTestCasePages(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_app_exist(self):
-        self.assertIsNotNone(app)
-
     def test_index_page(self):
         response = self.client.get("/")
         data = response.get_data(as_text=True)
