@@ -64,3 +64,17 @@ flask run
 - Partner:
     - username: `par`
     - password: `12345678`
+
+
+### Unittest 
+
+```bash
+python -m unittest
+```
+
+### Coverage 
+
+```bash
+coverage run --source=dolt -m unittest
+coverage report
+```
