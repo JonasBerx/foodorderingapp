@@ -11,7 +11,6 @@ class DoltTestCasePages(unittest.TestCase):
             SQLALCHEMY_DATABASE_URI="sqlite:///:memory:"
         )
         self.client = app.test_client()
-        self.runner = app.test_cli_runner()
 
     def tearDown(self):
         pass

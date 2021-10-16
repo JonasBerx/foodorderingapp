@@ -30,41 +30,41 @@ def partner():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
-        # Get form data
-        username = request.form["username"]
-        password = request.form["password"]
+    if request.method != "POST":
+        return render_template("login.html")
 
-        # Check input values
-        if not username:
-            flash("Input invalid: Please enter a username")
-            redirect(url_for("login"))
-        elif not password:
-            flash("Input invalid: Please enter a password")
-            redirect(url_for("login"))
+    # Get form data
+    username = request.form["username"]
+    password = request.form["password"]
 
-        # Get the user
-        user = User.query.filter(User.username == username).first()
+    # Check input values
+    if not username:
+        flash("Input invalid: Please enter a username")
+        redirect(url_for("login"))
+    elif not password:
+        flash("Input invalid: Please enter a password")
+        redirect(url_for("login"))
 
-        # Check password hash
-        if not user:
-            pass
-        elif not user.validate_password(password):
-            pass
-        elif user.type in {"courier", "employee", "partner"}:
-            login_user(user)
-            flash("Login succeeded")
-            return redirect(url_for(user.type))
-        else:
-            login_user(user)
-            flash("Login succeeded")
-            return redirect(url_for("index"))
+    # Get the user
+    user = User.query.filter(User.username == username).first()
 
-        # Wrong login info
-        flash("Invalid username or password")
-        return redirect(url_for("login"))
+    # Check password hash
+    if not user:
+        pass
+    elif not user.validate_password(password):
+        pass
+    elif user.type in {"courier", "employee", "partner"}:
+        login_user(user)
+        flash("Login succeeded")
+        return redirect(url_for(user.type))
+    else:
+        login_user(user)
+        flash("Login succeeded")
+        return redirect(url_for("index"))
 
-    return render_template("login.html")
+    # Wrong login info
+    flash("Invalid username or password")
+    return redirect(url_for("login"))
 
 
 @app.route("/logout")

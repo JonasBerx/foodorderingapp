@@ -5,14 +5,13 @@ from dolt.commands import mock
 from dolt.models import Customer
 
 
-class DoltTestCasePages(unittest.TestCase):
+class DoltTestCaseCommands(unittest.TestCase):
 
     def setUp(self):
         app.config.update(
             TESTING=True,
             SQLALCHEMY_DATABASE_URI='sqlite:///:memory:'
         )
-        db.drop_all()
         self.client = app.test_client()
         self.runner = app.test_cli_runner()
 

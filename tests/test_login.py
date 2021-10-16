@@ -28,23 +28,30 @@ class DoltTestCaseLogin(unittest.TestCase):
         db.session.commit()
 
         self.client = app.test_client()
-        self.runner = app.test_cli_runner()
 
     def tearDown(self):
         db.session.remove()
         db.drop_all()
 
     def mock_login(self):
-        self.client.post("/login", data=dict(
-            username="test",
-            password="12345678",
-        ), follow_redirects=True)
+        self.client.post(
+            "/login",
+            data=dict(
+                username="test",
+                password="12345678"
+            ),
+            follow_redirects=True
+        )
 
     def mock_login_courier(self):
-        self.client.post("/login", data=dict(
-            username="cou",
-            password="87654321",
-        ), follow_redirects=True)
+        self.client.post(
+            "/login",
+            data=dict(
+                username="cou",
+                password="87654321"
+            ),
+            follow_redirects=True
+        )
 
     def test_logout_status(self):
         response = self.client.get("/")
@@ -60,43 +67,67 @@ class DoltTestCaseLogin(unittest.TestCase):
         self.assertNotIn("Welcome, dear courier!", data)
 
     def test_login(self):
-        response = self.client.post("/login", data=dict(
-            username="test",
-            password="12345678"
-        ), follow_redirects=True)
+        # Correct login
+        response = self.client.post(
+            "/login",
+            data=dict(
+                username="test",
+                password="12345678"
+            ),
+            follow_redirects=True
+        )
         data = response.get_data(as_text=True)
         self.assertIn("Login succeeded", data)
         self.assertIn("Logout", data)
         self.assertIn("Settings", data)
 
-        response = self.client.post("/login", data=dict(
-            username="test",
-            password="87654321"
-        ), follow_redirects=True)
+        # Wrong password
+        response = self.client.post(
+            "/login",
+            data=dict(
+                username="test",
+                password="87654321"
+            ),
+            follow_redirects=True
+        )
         data = response.get_data(as_text=True)
         self.assertNotIn("Login succeeded", data)
         self.assertIn("Invalid username or password", data)
 
-        response = self.client.post("/login", data=dict(
-            username="test123",
-            password="12345678"
-        ), follow_redirects=True)
+        # User does not exist
+        response = self.client.post(
+            "/login",
+            data=dict(
+                username="test123",
+                password="12345678"
+            ),
+            follow_redirects=True
+        )
         data = response.get_data(as_text=True)
         self.assertNotIn("Login succeeded", data)
         self.assertIn("Invalid username or password", data)
 
-        response = self.client.post("/login", data=dict(
-            username="",
-            password="12345678"
-        ), follow_redirects=True)
+        # Username is empty
+        response = self.client.post(
+            "/login",
+            data=dict(
+                username="",
+                password="12345678"
+            ),
+            follow_redirects=True
+        )
         data = response.get_data(as_text=True)
         self.assertNotIn("Login succeeded", data)
         self.assertIn("Input invalid: Please enter a username", data)
 
-        response = self.client.post("/login", data=dict(
-            username="test",
-            password=""
-        ), follow_redirects=True)
+        # Password is empty
+        response = self.client.post(
+            "/login",
+            data=dict(
+                username="test",
+                password=""
+            ), follow_redirects=True
+        )
         data = response.get_data(as_text=True)
         self.assertNotIn("Login succeeded", data)
         self.assertIn("Input invalid: Please enter a password", data)
@@ -110,6 +141,7 @@ class DoltTestCaseLogin(unittest.TestCase):
         self.assertNotIn("Settings", data)
 
     def test_login_role(self):
+        # Test different roles' login
         roles = {
             "courier": "12345",
             "customer": "123456",
@@ -118,10 +150,14 @@ class DoltTestCaseLogin(unittest.TestCase):
         }
 
         for role in roles:
-            response = self.client.post("/login", data=dict(
-                username=role[:3],
-                password=roles[role]
-            ), follow_redirects=True)
+            response = self.client.post(
+                "/login",
+                data=dict(
+                    username=role[:3],
+                    password=roles[role]
+                ),
+                follow_redirects=True
+            )
             data = response.get_data(as_text=True)
             self.assertIn("Login succeeded", data)
             self.assertIn("Logout", data)
