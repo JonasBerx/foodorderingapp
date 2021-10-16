@@ -1,7 +1,7 @@
 import unittest
 
 from dolt import app, db
-from dolt.models import User
+from dolt.models import User, Courier
 
 
 class DoltTestCaseLogin(unittest.TestCase):
@@ -15,8 +15,10 @@ class DoltTestCaseLogin(unittest.TestCase):
 
         user = User(name="Test", username="test") # noqa
         user.set_password("12345678")
+        courier = Courier(name="COU", username="cou") # noqa
+        courier.set_password("87654321")
 
-        db.session.add_all([user])
+        db.session.add_all([user, courier])
         db.session.commit()
 
         self.client = app.test_client()
@@ -30,6 +32,12 @@ class DoltTestCaseLogin(unittest.TestCase):
         self.client.post("/login", data=dict(
             username="test",
             password="12345678",
+        ), follow_redirects=True)
+
+    def mock_login_courier(self):
+        self.client.post("/login", data=dict(
+            username="cou",
+            password="87654321",
         ), follow_redirects=True)
 
     def test_logout_status(self):
@@ -87,6 +95,17 @@ class DoltTestCaseLogin(unittest.TestCase):
         self.assertIn("Logout succeeded", data)
         self.assertNotIn("Logout</a>", data)
         self.assertNotIn("Settings", data)
+
+    def test_login_role(self):
+        response = self.client.post("/login", data=dict(
+            username="cou",
+            password="87654321"
+        ), follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Login succeeded", data)
+        self.assertIn("Logout", data)
+        self.assertIn("Settings", data)
+        self.assertIn("Welcome, dear courier!", data)
 
 
 if __name__ == '__main__':
