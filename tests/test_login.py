@@ -1,6 +1,7 @@
 import unittest
 
 from dolt import app, db
+from dolt.models import User
 
 
 class DoltTestCaseLogin(unittest.TestCase):
@@ -11,6 +12,11 @@ class DoltTestCaseLogin(unittest.TestCase):
             SQLALCHEMY_DATABASE_URI="sqlite:///:memory:"
         )
         db.create_all()
+
+        user = User(name="Test", username="test")
+        user.set_password("12345678")
+
+        db.session.add_all([user])
         db.session.commit()
 
         self.client = app.test_client()
