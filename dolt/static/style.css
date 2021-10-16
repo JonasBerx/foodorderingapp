@@ -5,6 +5,16 @@ body {
     font-family: Helvetica, Arial, sans-serif;
 }
 
+.alert {
+    position: relative;
+    padding: 7px;
+    margin: 7px 0;
+    border: 1px solid #b8daff;
+    color: #004085;
+    background-color: #cce5ff;
+    border-radius: 5px;
+}
+
 .logo {
     width: 40px;
     vertical-align: middle;
@@ -32,6 +42,10 @@ nav li a {
 
 nav li a:hover {
     background-color: #111;
+}
+
+.content {
+    margin-left: 10px;
 }
 
 .login-form  { display: table;      }
