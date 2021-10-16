@@ -26,6 +26,12 @@ class DoltTestCaseLogin(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
+    def mock_login(self):
+        self.client.post("/login", data=dict(
+            username="test",
+            password="12345678",
+        ), follow_redirects=True)
+
     def test_login(self):
         response = self.client.post("/login", data=dict(
             username="test",
@@ -33,6 +39,12 @@ class DoltTestCaseLogin(unittest.TestCase):
         ), follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertIn("Login succeeded", data)
+
+    def test_logout(self):
+        self.mock_login()
+        response = self.client.get("/logout", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Logout succeeded", data)
 
 
 if __name__ == '__main__':
