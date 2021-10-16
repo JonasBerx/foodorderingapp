@@ -1,6 +1,6 @@
 import unittest
 
-from dolt import app, db
+from dolt import app
 
 
 class DoltTestCasePages(unittest.TestCase):
@@ -10,15 +10,11 @@ class DoltTestCasePages(unittest.TestCase):
             TESTING=True,
             SQLALCHEMY_DATABASE_URI="sqlite:///:memory:"
         )
-        db.create_all()
-        db.session.commit()
-
         self.client = app.test_client()
         self.runner = app.test_cli_runner()
 
     def tearDown(self):
-        db.session.remove()
-        db.drop_all()
+        pass
 
     def test_app_exist(self):
         self.assertIsNotNone(app)

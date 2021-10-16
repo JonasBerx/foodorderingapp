@@ -13,7 +13,7 @@ class DoltTestCaseLogin(unittest.TestCase):
         )
         db.create_all()
 
-        user = User(name="Test", username="test")
+        user = User(name="Test", username="test") # noqa
         user.set_password("12345678")
 
         db.session.add_all([user])
