@@ -46,6 +46,13 @@ class DoltTestCaseLogin(unittest.TestCase):
         self.assertNotIn("Logout", data)
         self.assertNotIn("Settings", data)
 
+    def test_logout_status_role(self):
+        response = self.client.get("/courier")
+        data = response.get_data(as_text=True)
+        self.assertNotIn("Logout", data)
+        self.assertNotIn("Settings", data)
+        self.assertNotIn("Welcome, dear courier!", data)
+
     def test_login(self):
         response = self.client.post("/login", data=dict(
             username="test",
