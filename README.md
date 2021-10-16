@@ -53,7 +53,7 @@ flask run
 ### Test accounts
 
 - Courier:
-    - username: `cus`
+    - username: `cou`
     - password: `12345`
 - Customer:
     - username: `cus`
