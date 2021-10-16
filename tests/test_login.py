@@ -39,6 +39,40 @@ class DoltTestCaseLogin(unittest.TestCase):
         ), follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertIn("Login succeeded", data)
+        self.assertIn("Logout", data)
+        self.assertIn("Settings", data)
+
+        response = self.client.post("/login", data=dict(
+            username="test",
+            password="87654321"
+        ), follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertNotIn("Login succeeded", data)
+        self.assertIn("Invalid username or password", data)
+
+        response = self.client.post("/login", data=dict(
+            username="test123",
+            password="12345678"
+        ), follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertNotIn("Login succeeded", data)
+        self.assertIn("Invalid username or password", data)
+
+        response = self.client.post("/login", data=dict(
+            username="",
+            password="12345678"
+        ), follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertNotIn("Login succeeded", data)
+        self.assertIn("Input invalid: Please enter a username", data)
+
+        response = self.client.post("/login", data=dict(
+            username="test",
+            password=""
+        ), follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertNotIn("Login succeeded", data)
+        self.assertIn("Input invalid: Please enter a password", data)
 
     def test_logout(self):
         self.mock_login()
