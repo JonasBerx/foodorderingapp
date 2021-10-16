@@ -32,6 +32,12 @@ class DoltTestCaseLogin(unittest.TestCase):
             password="12345678",
         ), follow_redirects=True)
 
+    def test_logout_status(self):
+        response = self.client.get("/")
+        data = response.get_data(as_text=True)
+        self.assertNotIn("Logout", data)
+        self.assertNotIn("Settings", data)
+
     def test_login(self):
         response = self.client.post("/login", data=dict(
             username="test",
@@ -79,7 +85,7 @@ class DoltTestCaseLogin(unittest.TestCase):
         response = self.client.get("/logout", follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertIn("Logout succeeded", data)
-        self.assertNotIn("Logout", data)
+        self.assertNotIn("Logout</a>", data)
         self.assertNotIn("Settings", data)
 
 
