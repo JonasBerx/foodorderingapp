@@ -25,6 +25,13 @@ class DoltTestCasePages(unittest.TestCase):
         self.assertIn("ᗺOlt Food", data)
         self.assertEqual(response.status_code, 200)
 
+    def test_login_page(self):
+        response = self.client.get("/login")
+        data = response.get_data(as_text=True)
+        self.assertIn("Enter your username", data)
+        self.assertIn("Enter your password", data)
+        self.assertEqual(response.status_code, 200)
+
 
 if __name__ == '__main__':
     unittest.main()

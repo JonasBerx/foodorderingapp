@@ -2,7 +2,7 @@
 
 Team 0 ~ Food ordering and management application using Python
 
-# Requirements chosen
+## Requirements chosen
 
 1. Place order -> Customer
 2. Manage order -> Employee
@@ -12,6 +12,9 @@ Team 0 ~ Food ordering and management application using Python
 6. Login & Logout 
 7. Profile update
 
-- vcs = gitlab
-- programming language = Python / Flask
-- unit test tool = 
+## Tools
+
+- VCS: GitHub
+- Programming Language: Python
+- Framework: Flask
+- Unit Test Tool = unittest
