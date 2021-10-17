@@ -13,19 +13,19 @@ def index():
 @app.route("/courier")
 @login_required
 def courier():
-    return render_template("courier.html")
+    return render_template("dashboards/courier.html")
 
 
 @app.route("/employee")
 @login_required
 def employee():
-    return render_template("employee.html")
+    return render_template("dashboards/employee.html")
 
 
 @app.route("/partner")
 @login_required
 def partner():
-    return render_template("partner.html")
+    return render_template("dashboards/partner.html")
 
 
 @app.route("/login", methods=["GET", "POST"])

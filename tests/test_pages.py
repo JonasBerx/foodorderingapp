@@ -15,6 +15,21 @@ class DoltTestCasePages(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def test_error_pages(self):
+        # 401
+        response = self.client.get("/courier")
+        data = response.get_data(as_text=True)
+        self.assertIn("Unauthorized - 401", data)
+        self.assertIn("Go Back", data)
+        self.assertEqual(response.status_code, 404)
+
+        # 404
+        response = self.client.get("/abracadabra")
+        data = response.get_data(as_text=True)
+        self.assertIn("Page Not Found - 404", data)
+        self.assertIn("Go Back", data)
+        self.assertEqual(response.status_code, 404)
+
     def test_index_page(self):
         response = self.client.get("/")
         data = response.get_data(as_text=True)
