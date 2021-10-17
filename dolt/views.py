@@ -1,7 +1,7 @@
 from flask import flash, redirect, render_template, request, url_for
-from flask_login import login_user, login_required, logout_user
+from flask_login import current_user, login_user, login_required, logout_user
 
-from dolt import app
+from dolt import app, db
 from dolt.models import User
 
 
@@ -78,4 +78,15 @@ def logout():
 @app.route("/settings", methods=["GET", "POST"])
 @login_required
 def settings():
-    return render_template("index.html")
+    if request.method != "POST":
+        return render_template("settings.html")
+
+    name = request.form["name"]
+    current_user.name = name
+    db.session.commit()
+    flash("Settings saved")
+
+    if current_user.type == "customer":
+        return redirect(url_for("index"))
+    else:
+        return redirect(url_for(current_user.type))

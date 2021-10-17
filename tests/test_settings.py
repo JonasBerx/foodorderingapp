@@ -1,7 +1,6 @@
 import unittest
 
 from dolt import app, db
-from dolt.commands import mock
 from dolt.models import Customer
 
 
@@ -45,7 +44,7 @@ class DoltTestCaseSettings(unittest.TestCase):
         self.assertIn("Your Name", data)
 
         response = self.client.post(
-            rule="/settings",
+            "/settings",
             data=dict(
                 name="Example Name"
             ),
