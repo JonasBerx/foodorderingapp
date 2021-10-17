@@ -45,10 +45,10 @@ def login():
 
     # Check input values
     if not username:
-        flash("Input invalid: Please enter a username")
+        flash("Invalid input: Please enter a username")
         redirect(url_for("login"))
     elif not password:
-        flash("Input invalid: Please enter a password")
+        flash("Invalid input: Please enter a password")
         redirect(url_for("login"))
 
     # Get the user
@@ -90,10 +90,10 @@ def settings():
     name = request.form["name"]
 
     if not name:
-        flash("Input invalid: Please enter a name")
+        flash("Invalid input: Please enter a name")
         return redirect(url_for("settings"))
     elif len(name) > 32:
-        flash("Input invalid: the name must be at most 32 characters long")
+        flash("Invalid input: the name must be at most 32 characters long")
         return redirect(url_for("settings"))
 
     current_user.name = name

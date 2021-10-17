@@ -43,6 +43,10 @@ class DoltTestCasePages(unittest.TestCase):
         self.assertIn("Enter your password", data)
         self.assertEqual(response.status_code, 200)
 
+    def test_orders_page(self):
+        response = self.client.get("/orders")
+        self.assertEqual(response.status_code, 401)
+
 
 if __name__ == '__main__':
     unittest.main()

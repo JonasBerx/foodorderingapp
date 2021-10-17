@@ -75,7 +75,7 @@ class DoltTestCaseSettings(unittest.TestCase):
         )
         data = response.get_data(as_text=True)
         self.assertNotIn("Settings saved", data)
-        self.assertIn("Input invalid: Please enter a name", data)
+        self.assertIn("Invalid input: Please enter a name", data)
 
         response = self.client.post(
             "/settings",
@@ -86,7 +86,7 @@ class DoltTestCaseSettings(unittest.TestCase):
         )
         data = response.get_data(as_text=True)
         self.assertNotIn("Settings saved", data)
-        self.assertIn("Input invalid: the name must be at most 32 characters long", data)
+        self.assertIn("Invalid input: the name must be at most 32 characters long", data)
 
     def test_settings_role(self):
         self.mock_login_role()

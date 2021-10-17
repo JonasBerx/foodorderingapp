@@ -118,7 +118,7 @@ class DoltTestCaseLogin(unittest.TestCase):
         )
         data = response.get_data(as_text=True)
         self.assertNotIn("Login succeeded", data)
-        self.assertIn("Input invalid: Please enter a username", data)
+        self.assertIn("Invalid input: Please enter a username", data)
 
         # Password is empty
         response = self.client.post(
@@ -130,7 +130,7 @@ class DoltTestCaseLogin(unittest.TestCase):
         )
         data = response.get_data(as_text=True)
         self.assertNotIn("Login succeeded", data)
-        self.assertIn("Input invalid: Please enter a password", data)
+        self.assertIn("Invalid input: Please enter a password", data)
 
     def test_logout(self):
         self.mock_login()
@@ -166,6 +166,9 @@ class DoltTestCaseLogin(unittest.TestCase):
 
             if role == "customer":
                 self.assertIn("Orders", data)
+                response = self.client.get("/orders")
+                data = response.get_data(as_text=True)
+                self.assertIn("Orders List", data)
             else:
                 self.assertIn("Dashboard", data)
 
