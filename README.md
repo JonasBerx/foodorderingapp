@@ -43,6 +43,12 @@ pip install -r requirements.txt
 flask mock
 ```
 
+Please reset the database if its structure changes:
+
+```bash
+flask mock --reset
+```
+
 ### Run
 
 ```bash
