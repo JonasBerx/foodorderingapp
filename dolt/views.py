@@ -82,6 +82,14 @@ def settings():
         return render_template("settings.html")
 
     name = request.form["name"]
+
+    if not name:
+        flash("Input invalid: Please enter a name")
+        return redirect(url_for("settings"))
+    elif len(name) > 32:
+        flash("Input invalid: the name must be at most 32 characters long")
+        return redirect(url_for("settings"))
+
     current_user.name = name
     db.session.commit()
     flash("Settings saved")

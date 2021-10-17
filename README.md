@@ -10,7 +10,7 @@ Team 0 ~ Food ordering and management application using Python
 4. Accept order delivery -> courier
 5. manage menu - changing/removing/adding -> partner
 6. [x] Login & Logout 
-7. Profile update
+7. [x] Profile update
 
 ## Tools
 
