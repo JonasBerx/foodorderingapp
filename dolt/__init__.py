@@ -22,4 +22,4 @@ def load_user(user_id):
     user = User.query.get(int(user_id))
     return user
 
-from dolt import commands, models, views  # noqa
+from dolt import commands, errors, models, views  # noqa

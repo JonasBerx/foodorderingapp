@@ -47,6 +47,7 @@ nav li a:hover {
 .content {
     margin-top: 25px;
     margin-left: 10px;
+    margin-right: 10px;
 }
 
 .login-form  { display: table;      }
@@ -78,6 +79,34 @@ input[type=text] input[type=password] {
     background-color: black;
     color: white;
     border: 1px solid black;
+}
+
+.restaurant-list {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.restaurant-list li {
+    padding: 12px 24px;
+    border-bottom: 1px solid #ddd;
+}
+
+.restaurant-list li:last-child {
+    border-bottom:none;
+}
+
+.restaurant-list li:hover {
+    background-color: #f8f9fa;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-right a {
+    color: #333;
 }
 
 footer {

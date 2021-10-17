@@ -21,7 +21,7 @@ class DoltTestCasePages(unittest.TestCase):
         data = response.get_data(as_text=True)
         self.assertIn("Unauthorized - 401", data)
         self.assertIn("Go Back", data)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 401)
 
         # 404
         response = self.client.get("/abracadabra")
