@@ -164,15 +164,14 @@ class DoltTestCaseLogin(unittest.TestCase):
             self.assertIn("Settings", data)
             self.assertIn(f"Welcome, dear {role}", data)
 
-            response = self.client.get("/logout", follow_redirects=True)
-            data = response.get_data(as_text=True)
-            self.assertIn("Logout succeeded", data)
-
-            if role == "courier":
+            if role == "customer":
                 self.assertIn("Orders", data)
             else:
                 self.assertIn("Dashboard", data)
 
+            response = self.client.get("/logout", follow_redirects=True)
+            data = response.get_data(as_text=True)
+            self.assertIn("Logout succeeded", data)
             self.assertNotIn("Logout</a>", data)
             self.assertNotIn("Settings", data)
 

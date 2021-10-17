@@ -16,6 +16,12 @@ def courier():
     return render_template("dashboards/courier.html")
 
 
+@app.route("/orders")
+@login_required
+def orders():
+    return render_template("dashboards/customer.html")
+
+
 @app.route("/employee")
 @login_required
 def employee():
