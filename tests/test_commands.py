@@ -30,6 +30,10 @@ class DoltTestCaseCommands(unittest.TestCase):
         self.assertIn("Mock done", result.output)
         self.assertNotEqual(Customer.query.count(), 0)
 
+    def test_mock_reset_command(self):
+        result = self.runner.invoke(mock, "--reset")
+        self.assertIn("Reset done", result.output)
+
 
 if __name__ == '__main__':
     unittest.main()
