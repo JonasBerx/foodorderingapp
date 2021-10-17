@@ -76,4 +76,5 @@ python -m unittest
 ```bash
 coverage run --source=dolt -m unittest
 coverage report
+coverage html
 ```
