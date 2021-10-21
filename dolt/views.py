@@ -115,5 +115,18 @@ def start_new_session():
         flash("Session Started Successfully")
         return redirect(url_for("courier"))
     else:
-        flash("Only courier's can start a  Session!")
+        flash("Only courier's can access this route!")
+        return redirect(redirect(url_for(current_user.type)))
+
+
+@app.route("/courier/session/end", methods=["POST"])
+@login_required
+def end_current_session():
+    if current_user.type == "courier":
+        current_user.end_session()
+        db.session.commit()
+        flash("Session Ended Successfully")
+        return redirect(url_for("courier"))
+    else:
+        flash("Only courier's can access this route!")
         return redirect(redirect(url_for(current_user.type)))

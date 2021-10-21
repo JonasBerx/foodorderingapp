@@ -44,6 +44,10 @@ class Courier(User, UserMixin):
         self.set_session_status("1")
         return self.in_session()
 
+    def end_session(self):
+        self.set_session_status("0")
+        return self.in_session()
+
 
 class Customer(User):
     __mapper_args__ = {
