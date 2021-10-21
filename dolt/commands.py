@@ -27,8 +27,10 @@ def mock(reset):
     food_a = Food(name="Food A", restaurant=partner2)
     food_b = Food(name="Food B", restaurant=partner2)
 
-    db.session.add_all([courier, customer, employee, partner1, partner2,
-                        food_1, food_2, food_a, food_b])
+    db.session.add_all(
+        [courier, customer, employee, partner1, partner2,
+         food_1, food_2, food_a, food_b]
+    )
     db.session.commit()
 
     click.echo("Mock done" if not reset else "Reset done")
