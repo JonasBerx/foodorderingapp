@@ -6,11 +6,12 @@ Team 0 ~ Food ordering and management application using Python
 
 1. Place order -> Customer
 2. Manage order -> Employee
-3. Start session -> Courier
-4. Accept order delivery -> courier
-5. manage menu - changing/removing/adding -> partner
-6. [x] Login & Logout 
-7. [x] Profile update
+3. [x] Start session -> Courier
+4. [x] End session -> Courier
+5. Accept order delivery -> courier
+6. manage menu - changing/removing/adding -> partner
+7. [x] Login & Logout 
+8. [x] Profile update
 
 ## Tools
 
