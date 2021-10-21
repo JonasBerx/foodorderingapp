@@ -52,7 +52,7 @@ class DoltTestCaseCourier(unittest.TestCase):
 
     def test_invalid_order(self):
         self.mock_login()
-        response = self.client.post("/order/new/2", follow_redirects=True)
+        response = self.client.post("/order/new/3", follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertNotIn("Order created", data)
         self.assertIn("Invalid request", data)

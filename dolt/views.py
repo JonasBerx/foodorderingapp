@@ -21,6 +21,11 @@ def courier():
 @login_required
 def order(food_id: int):
     food = Food.query.filter(Food.id == food_id).first()
+
+    if not food:
+        flash("Invalid request")
+        return redirect(url_for("index"))
+
     restaurant = food.restaurant
     Order(customer=current_user, restaurant=restaurant, food=[food])
     db.session.commit()
