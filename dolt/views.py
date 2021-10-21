@@ -109,24 +109,16 @@ def settings():
 @app.route("/courier/session/start", methods=["POST"])
 @login_required
 def start_new_session():
-    if current_user.type == "courier":
-        current_user.start_session()
-        db.session.commit()
-        flash("Session Started Successfully")
-        return redirect(url_for("courier"))
-    else:
-        flash("Only courier's can access this route!")
-        return redirect(redirect(url_for(current_user.type)))
+    current_user.start_session()
+    db.session.commit()
+    flash("Session Started Successfully")
+    return redirect(url_for("courier"))
 
 
 @app.route("/courier/session/end", methods=["POST"])
 @login_required
 def end_current_session():
-    if current_user.type == "courier":
-        current_user.end_session()
-        db.session.commit()
-        flash("Session Ended Successfully")
-        return redirect(url_for("courier"))
-    else:
-        flash("Only courier's can access this route!")
-        return redirect(redirect(url_for(current_user.type)))
+    current_user.end_session()
+    db.session.commit()
+    flash("Session Ended Successfully")
+    return redirect(url_for("courier"))

@@ -37,6 +37,16 @@ class DoltTestCaseCourier(unittest.TestCase):
             follow_redirects=True
         )
 
+    def mock_login(self):
+        self.client.post(
+            "/login",
+            data=dict(
+                username="cus",
+                password="123456",
+            ),
+            follow_redirects=True
+        )
+
     def test_a_courier_can_see_their_session_status(self):
         self.mock_login_courier()
         response = self.client.get('/courier')
