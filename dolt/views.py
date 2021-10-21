@@ -104,3 +104,21 @@ def settings():
         return redirect(url_for("index"))
     else:
         return redirect(url_for(current_user.type))
+
+
+@app.route("/courier/session/start", methods=["POST"])
+@login_required
+def start_new_session():
+    current_user.start_session()
+    db.session.commit()
+    flash("Session Started Successfully")
+    return redirect(url_for("courier"))
+
+
+@app.route("/courier/session/end", methods=["POST"])
+@login_required
+def end_current_session():
+    current_user.end_session()
+    db.session.commit()
+    flash("Session Ended Successfully")
+    return redirect(url_for("courier"))
