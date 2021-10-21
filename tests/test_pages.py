@@ -1,6 +1,6 @@
 import unittest
 
-from dolt import app
+from dolt import app, db
 
 
 class DoltTestCasePages(unittest.TestCase):
@@ -10,6 +10,9 @@ class DoltTestCasePages(unittest.TestCase):
             TESTING=True,
             SQLALCHEMY_DATABASE_URI="sqlite:///:memory:"
         )
+        db.create_all()
+        db.session.commit()
+
         self.client = app.test_client()
 
     def tearDown(self):

@@ -101,6 +101,10 @@ input[type=text] input[type=password] {
     background-color: #f8f9fa;
 }
 
+.item-list li span.title {
+    font-weight: bold;
+}
+
 .float-right {
     float: right;
 }

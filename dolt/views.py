@@ -2,12 +2,13 @@ from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, login_required, logout_user
 
 from dolt import app, db
-from dolt.models import User
+from dolt.models import Partner, User
 
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    restaurants = Partner.query.all()
+    return render_template("index.html", restaurants=restaurants)
 
 
 @app.route("/courier")

@@ -1,7 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if current_user.type == "customer" %}
-<h3>Welcome, dear customer {{ current_user.name }}!</h3>
-{% endif %}
+    {% if current_user.type == "customer" %}
+        <h3>Welcome, dear customer {{ current_user.name }}!</h3>
+    {% endif %}
+
+    {% for restaurant in restaurants %}
+        <ul class="item-list">
+            <li><span class="title">{{ restaurant.name }}</span></li>
+            {% for food in restaurant.menu %}
+                <li>{{ food.name }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
 {% endblock %}
