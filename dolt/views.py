@@ -1,7 +1,8 @@
 from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 
-from dolt import app, db
+from dolt import app, db, login_manager
+from dolt.errors import bad_request
 from dolt.models import Food, Order, Partner, User
 
 
@@ -139,3 +140,12 @@ def end_current_session():
     db.session.commit()
     flash("Session Ended Successfully")
     return redirect(url_for("courier"))
+
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    if request.path.startswith("/employee"):
+        return bad_request(None)
+
+    flash("Please login first")
+    return redirect("/login")

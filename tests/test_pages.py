@@ -20,7 +20,7 @@ class DoltTestCasePages(unittest.TestCase):
 
     def test_error_pages(self):
         # 401
-        response = self.client.get("/courier")
+        response = self.client.get("/employee")
         data = response.get_data(as_text=True)
         self.assertIn("Unauthorized - 401", data)
         self.assertIn("Go Back", data)
@@ -47,8 +47,10 @@ class DoltTestCasePages(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_orders_page(self):
-        response = self.client.get("/orders")
-        self.assertEqual(response.status_code, 401)
+        response = self.client.get("/orders", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Please login first", data)
+        self.assertEqual(response.status_code, 200)
 
 
 if __name__ == '__main__':

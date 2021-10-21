@@ -11,9 +11,13 @@
             {% for food in restaurant.menu %}
                 <li>{{ food.name }}
                     <span class="float-right">
-                        {% if current_user.type == "customer" %}
+                        {% if not current_user.type or current_user.type == "customer" %}
                             <form class="inline-form" method="post" action="{{ url_for("order", food_id=food.id) }}">
-                                <input class="order" type="submit" name="order" value="Order" onclick="return confirm('Are you sure?')">
+                                {% if not current_user.type %}
+                                    <input class="order" type="submit" name="order" value="Order">
+                                {% else %}
+                                    <input class="order" type="submit" name="order" value="Order" onclick="return confirm('Are you sure?')">
+                                {% endif %}
                             </form>
                         {% endif %}
                     </span>
