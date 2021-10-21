@@ -65,3 +65,10 @@ class Partner(User):
         "polymorphic_identity": "partner",
     }
     id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
+    menu = db.relationship("Food", backref="restaurant", lazy=True)
+
+
+class Food(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(32))
+    partner_id = db.Column(db.Integer(), db.ForeignKey("partner.id"))

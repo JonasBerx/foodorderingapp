@@ -1,7 +1,7 @@
 import click
 
 from dolt import app, db
-from dolt.models import Courier, Customer, Employee, Partner
+from dolt.models import Courier, Customer, Employee, Food, Partner
 
 
 @app.cli.command()
@@ -20,7 +20,10 @@ def mock(reset):
     partner = Partner(name="PAR", username="par")  # noqa
     partner.set_password("12345678")
 
-    db.session.add_all([courier, customer, employee, partner])
+    food1 = Food(name="food1", restaurant=partner)
+    food2 = Food(name="food2", restaurant=partner)
+
+    db.session.add_all([courier, customer, employee, partner, food1, food2])
     db.session.commit()
 
     click.echo("Mock done" if not reset else "Reset done")
