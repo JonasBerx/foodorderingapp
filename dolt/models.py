@@ -24,7 +24,7 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
 
 
-class Courier(User, UserMixin):
+class Courier(User):
     __mapper_args__ = {
         "polymorphic_identity": "courier",
     }
