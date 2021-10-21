@@ -43,13 +43,19 @@ class DoltTestCaseCourier(unittest.TestCase):
 
     def test_order_food(self):
         self.mock_login()
-
         response = self.client.post("/order/new/1", follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertIn("Order created", data)
         self.assertIn("Restaurant 1", data)
         self.assertIn("Food 1", data)
         self.assertIn("Ongoing", data)
+
+    def test_invalid_order(self):
+        self.mock_login()
+        response = self.client.post("/order/new/2", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertNotIn("Order created", data)
+        self.assertIn("Invalid request", data)
 
 
 if __name__ == '__main__':
