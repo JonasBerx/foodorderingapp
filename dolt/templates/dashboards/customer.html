@@ -1,5 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h3>Orders List</h3>
+    <h3>Orders List</h3>
+
+    {% if current_user.orders %}
+        {% for order in current_user.orders %}
+            <ul class="item-list">
+                <li><span class="title">{{ order.restaurant.name }}</span></li>
+                <li>Status: Ongoing</li>
+                {% for food in order.food %}
+                    <li>{{ food.name }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% endif %}
 {% endblock %}

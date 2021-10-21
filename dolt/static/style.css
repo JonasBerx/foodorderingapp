@@ -105,6 +105,22 @@ input[type=text] input[type=password] {
     font-weight: bold;
 }
 
+.inline-form {
+    display: inline;
+}
+
+.order {
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    background: #209CEE;;
+    border-radius: 5px;
+    padding: 4px 5px;
+    border: none;
+    margin-top: -2px;
+}
+
 .float-right {
     float: right;
 }

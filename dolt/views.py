@@ -2,7 +2,7 @@ from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, login_required, logout_user
 
 from dolt import app, db
-from dolt.models import Partner, User
+from dolt.models import Food, Order, Partner, User
 
 
 @app.route("/")
@@ -20,6 +20,11 @@ def courier():
 @app.route("/order/new/<int:food_id>", methods=["POST"])
 @login_required
 def order(food_id: int):
+    food = Food.query.filter(Food.id == food_id).first()
+    restaurant = food.restaurant
+    Order(customer=current_user, restaurant=restaurant, food=[food])
+    db.session.commit()
+    flash("Order created")
     return redirect(url_for("orders"))
 
 
