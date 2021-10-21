@@ -29,6 +29,13 @@ class Courier(User, UserMixin):
         "polymorphic_identity": "courier",
     }
     id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
+    session_status = db.Column(
+        db.Enum("0", "1"), nullable=False, server_default="0")
+
+    def in_session(self):
+        if self.session_status == "1":
+            return True
+        return False
 
 
 class Customer(User):
