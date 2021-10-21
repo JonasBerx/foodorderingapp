@@ -23,6 +23,27 @@ class DoltTestCaseCourier(unittest.TestCase):
 
         self.client = app.test_client()
 
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+
+    def mock_login_courier(self):
+        self.client.post(
+            "/login",
+            data=dict(
+                username="cou",
+                password="12345"
+            ),
+            follow_redirects=True
+        )
+
+    def test_courier_session_displays_courier_status(self):
+        self.mock_login_courier()
+        response = self.client.get('/courier')
+        data = response.get_data(as_text=True)
+        self.assertIn("Welcome, dear courier COU!", data)
+        self.assertIn("Session Status", data)
+
 
 if __name__ == '__main__':
     unittest.main()
