@@ -4,11 +4,11 @@
     <h3>Orders List</h3>
 
     {% if current_user.orders %}
-        {% for order in current_user.orders %}
+        {% for order in current_user.orders[::-1] %}
             <ul class="item-list">
                 <li><span class="title">{{ order.restaurant.name }}</span></li>
-                <li>Status: Ongoing</li>
-                {% for food in order.food %}
+                <li>Status: {{ order.status.capitalize() }}</li>
+                {% for food in order.foods %}
                     <li>{{ food.name }}</li>
                 {% endfor %}
             </ul>

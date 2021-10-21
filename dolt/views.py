@@ -28,7 +28,12 @@ def order(food_id: int):
         return redirect(url_for("index"))
 
     restaurant = food.restaurant
-    Order(customer=current_user, restaurant=restaurant, food=[food])
+    Order(
+        status="ongoing",
+        customer=current_user,
+        restaurant=restaurant,
+        foods=[food]
+    )
     db.session.commit()
     flash("Order created")
     return redirect(url_for("orders"))

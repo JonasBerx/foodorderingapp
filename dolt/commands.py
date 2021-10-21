@@ -27,7 +27,12 @@ def mock(reset):
     food_a = Food(name="Food A", restaurant=partner2)
     food_b = Food(name="Food B", restaurant=partner2)
 
-    order = Order(food=[food_1], customer=customer, restaurant=food_1.restaurant)
+    order = Order(
+        status="finished",
+        foods=[food_1],
+        customer=customer,
+        restaurant=food_1.restaurant
+    )
     order.courier = courier
 
     db.session.add_all(
