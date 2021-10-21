@@ -71,17 +71,23 @@ class Partner(User):
     orders = db.relationship("Order", backref="restaurant", lazy=True)
 
 
+foods = db.Table(
+    "foods",
+    db.Column("food_id", db.Integer, db.ForeignKey("food.id"), primary_key=True),
+    db.Column("order_id", db.Integer, db.ForeignKey("order.id"), primary_key=True)
+)
+
+
 class Food(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(32))
     partner_id = db.Column(db.Integer(), db.ForeignKey("partner.id"))
-    order_id = db.Column(db.Integer(), db.ForeignKey("order.id"))
 
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(32))
-    food = db.relationship("Food", backref="order", lazy=True)
+    status = db.Column(db.String(32), nullable=False)
+    foods = db.relationship("Food", secondary=foods, lazy="subquery", backref=db.backref("orders", lazy=True))
     partner_id = db.Column(db.Integer(), db.ForeignKey("partner.id"))
     customer_id = db.Column(db.Integer(), db.ForeignKey("customer.id"))
     courier_id = db.Column(db.Integer(), db.ForeignKey("courier.id"))
