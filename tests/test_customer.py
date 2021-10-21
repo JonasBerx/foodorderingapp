@@ -57,6 +57,17 @@ class DoltTestCaseCourier(unittest.TestCase):
         self.assertNotIn("Order created", data)
         self.assertIn("Invalid request", data)
 
+    def test_show_order_button_without_login(self):
+        response = self.client.get("/", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn('input class="order"', data)
+
+    def test_login_redirect(self):
+        response = self.client.post("/order/new/1", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertNotIn("Unauthorized", data)
+        self.assertIn("Please login first", data)
+
 
 if __name__ == '__main__':
     unittest.main()
