@@ -42,7 +42,7 @@ class DoltTestCaseCourier(unittest.TestCase):
         response = self.client.get('/courier')
         data = response.get_data(as_text=True)
         self.assertIn("Welcome, dear courier COU!", data)
-        self.assertIn("Session Status", data)
+        self.assertIn("Session Status: Not In Session", data)
 
 
 if __name__ == '__main__':
