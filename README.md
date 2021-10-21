@@ -1,5 +1,7 @@
 # foodorderingapp
 
+[![Test](https://github.com/JonasBerx/foodorderingapp/actions/workflows/python-test.yml/badge.svg)](https://github.com/JonasBerx/foodorderingapp/actions/workflows/python-test.yml)
+
 Team 0 ~ Food ordering and management application using Python
 
 ## Requirements chosen
