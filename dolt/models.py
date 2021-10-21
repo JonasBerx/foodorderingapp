@@ -37,6 +37,13 @@ class Courier(User, UserMixin):
             return True
         return False
 
+    def set_session_status(self, status):
+        self.session_status = status
+
+    def start_session(self):
+        self.set_session_status("1")
+        return self.in_session()
+
 
 class Customer(User):
     __mapper_args__ = {

@@ -106,6 +106,14 @@ def settings():
         return redirect(url_for(current_user.type))
 
 
-@app.route("/session/start", methods=["POST"])
+@app.route("/courier/session/start", methods=["POST"])
+@login_required
 def start_new_session():
-    pass
+    if current_user.type == "courier":
+        current_user.start_session()
+        db.session.commit()
+        flash("Session Started Successfully")
+        return redirect(url_for("courier"))
+    else:
+        flash("Only courier's can start a  Session!")
+        return redirect(redirect(url_for(current_user.type)))
