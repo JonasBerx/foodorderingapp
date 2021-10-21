@@ -8,9 +8,7 @@ from dolt.models import Courier, Customer, Employee, Partner
 @click.option("--reset", is_flag=True, help="Please reset the database when structure changes")
 def mock(reset):
     # Generate the local test data
-    if reset:
-        db.drop_all()
-
+    reset and db.drop_all()
     db.create_all()
 
     courier = Courier(name="COU", username="cou")  # noqa

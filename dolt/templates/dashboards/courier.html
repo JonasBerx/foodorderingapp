@@ -1,18 +1,18 @@
 {% extends "base.html" %} {% block content %}
 <h3>Welcome, dear courier {{ current_user.name }}!</h3>
-<p>
+<div>
   Session Status:
   {% if current_user.in_session() %} 
     Session in Progress 
-    <form method="post" action="/courier/session/end">
+    <form method="post" action="{{ url_for("start_new_session") }}">
         <input class="btn" type="submit" name="submit" value="End Session">
     </form>  
 
    {% else%} 
     Not In Session
-    <form method="post" action="/courier/session/start">
+    <form method="post" action="{{ url_for("stop_new_session") }}">
         <input class="btn" type="submit" name="submit" value="Start Session">
     </form> 
     {% endif %}
-</p>
+</div>
 {% endblock %}
