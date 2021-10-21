@@ -1,4 +1,7 @@
 {% extends "base.html" %} {% block content %}
 <h3>Welcome, dear courier {{ current_user.name }}!</h3>
-<p>Session Status</p>
+<p>
+  Session Status: {{current_user.in_session() if "Session in Progress" else "Not
+  In Session"}}
+</p>
 {% endblock %}
