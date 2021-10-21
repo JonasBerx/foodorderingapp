@@ -104,3 +104,8 @@ def settings():
         return redirect(url_for("index"))
     else:
         return redirect(url_for(current_user.type))
+
+
+@app.route("/session/start", methods=["POST"])
+def start_new_session():
+    pass
