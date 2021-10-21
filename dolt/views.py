@@ -17,6 +17,12 @@ def courier():
     return render_template("dashboards/courier.html")
 
 
+@app.route("/order/new/<int:food_id>", methods=["POST"])
+@login_required
+def order(food_id: int):
+    return redirect(url_for("orders"))
+
+
 @app.route("/orders")
 @login_required
 def orders():
