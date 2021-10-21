@@ -52,6 +52,14 @@ class DoltTestCaseCourier(unittest.TestCase):
         self.assertIn("Session Started Successfully", data)
         self.assertIn("Session Status: Session in Progress", data)
 
+    def test_a_courier_can_end_a_session(self):
+        self.mock_login_courier()
+        response = self.client.post(
+            '/courier/session/end', follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Session Ended Successfully", data)
+        self.assertIn("Session Status: Not In Session", data)
+
 
 if __name__ == '__main__':
     unittest.main()
