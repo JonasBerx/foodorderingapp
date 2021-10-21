@@ -24,18 +24,16 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
 
 
-class Courier(User, UserMixin):
+class Courier(User):
     __mapper_args__ = {
         "polymorphic_identity": "courier",
     }
     id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
-    session_status = db.Column(
-        db.Enum("0", "1"), nullable=False, server_default="0")
+    session_status = db.Column(db.Enum("0", "1"), nullable=False, server_default="0")
+    missions = db.relationship("Order", backref="courier", lazy=True)
 
     def in_session(self):
-        if self.session_status == "1":
-            return True
-        return False
+        return self.session_status == "1"
 
     def set_session_status(self, status):
         self.session_status = status
@@ -54,6 +52,7 @@ class Customer(User):
         "polymorphic_identity": "customer",
     }
     id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
+    orders = db.relationship("Order", backref="customer", lazy=True)
 
 
 class Employee(User):
@@ -68,3 +67,21 @@ class Partner(User):
         "polymorphic_identity": "partner",
     }
     id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
+    menu = db.relationship("Food", backref="restaurant", lazy=True)
+    orders = db.relationship("Order", backref="restaurant", lazy=True)
+
+
+class Food(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(32))
+    partner_id = db.Column(db.Integer(), db.ForeignKey("partner.id"))
+    order_id = db.Column(db.Integer(), db.ForeignKey("order.id"))
+
+
+class Order(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(32))
+    food = db.relationship("Food", backref="order", lazy=True)
+    partner_id = db.Column(db.Integer(), db.ForeignKey("partner.id"))
+    customer_id = db.Column(db.Integer(), db.ForeignKey("customer.id"))
+    courier_id = db.Column(db.Integer(), db.ForeignKey("courier.id"))

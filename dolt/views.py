@@ -1,19 +1,37 @@
 from flask import flash, redirect, render_template, request, url_for
-from flask_login import current_user, login_user, login_required, logout_user
+from flask_login import current_user, login_required, login_user, logout_user
 
-from dolt import app, db
-from dolt.models import User
+from dolt import app, db, login_manager
+from dolt.errors import bad_request
+from dolt.models import Food, Order, Partner, User
 
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    restaurants = Partner.query.all()
+    return render_template("index.html", restaurants=restaurants)
 
 
 @app.route("/courier")
 @login_required
 def courier():
     return render_template("dashboards/courier.html")
+
+
+@app.route("/order/new/<int:food_id>", methods=["POST"])
+@login_required
+def order(food_id: int):
+    food = Food.query.filter(Food.id == food_id).first()
+
+    if not food:
+        flash("Invalid request")
+        return redirect(url_for("index"))
+
+    restaurant = food.restaurant
+    Order(customer=current_user, restaurant=restaurant, food=[food])
+    db.session.commit()
+    flash("Order created")
+    return redirect(url_for("orders"))
 
 
 @app.route("/orders")
@@ -122,3 +140,12 @@ def end_current_session():
     db.session.commit()
     flash("Session Ended Successfully")
     return redirect(url_for("courier"))
+
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    if request.path.startswith("/employee"):
+        return bad_request(None)
+
+    flash("Please login first")
+    return redirect("/login")

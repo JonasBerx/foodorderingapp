@@ -1,10 +1,12 @@
 # foodorderingapp
 
+[![Test](https://github.com/JonasBerx/foodorderingapp/actions/workflows/python-test.yml/badge.svg)](https://github.com/JonasBerx/foodorderingapp/actions/workflows/python-test.yml)
+
 Team 0 ~ Food ordering and management application using Python
 
 ## Requirements chosen
 
-1. Place order -> Customer
+1. [x] Place order -> Customer
 2. Manage order -> Employee
 3. [x] Start session -> Courier
 4. [x] End session -> Courier

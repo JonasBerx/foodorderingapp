@@ -1,7 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if current_user.type == "customer" %}
-<h3>Welcome, dear customer {{ current_user.name }}!</h3>
-{% endif %}
+    {% if current_user.type == "customer" %}
+        <h3>Welcome, dear customer {{ current_user.name }}!</h3>
+    {% endif %}
+
+    {% for restaurant in restaurants %}
+        <ul class="item-list">
+            <li><span class="title">{{ restaurant.name }}</span></li>
+            {% for food in restaurant.menu %}
+                <li>{{ food.name }}
+                    <span class="float-right">
+                        {% if not current_user.type or current_user.type == "customer" %}
+                            <form class="inline-form" method="post" action="{{ url_for("order", food_id=food.id) }}">
+                                {% if not current_user.type %}
+                                    <input class="order" type="submit" name="order" value="Order">
+                                {% else %}
+                                    <input class="order" type="submit" name="order" value="Order" onclick="return confirm('Are you sure?')">
+                                {% endif %}
+                            </form>
+                        {% endif %}
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
 {% endblock %}
