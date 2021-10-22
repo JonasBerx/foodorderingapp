@@ -206,6 +206,12 @@ def settings():
         return redirect(url_for(current_user.type))
 
 
+@app.route('/courier/missions', methods=["GET"])
+@login_required
+def missions():
+    return render_template("dashboards/courier/missions.html")
+
+
 @app.route("/courier/session/start", methods=["POST"])
 @login_required
 def start_new_session():

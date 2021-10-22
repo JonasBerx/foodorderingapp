@@ -70,7 +70,7 @@ class DoltTestCaseCourier(unittest.TestCase):
 
     def test_a_courier_can_see_the_missions_page(self):
         self.mock_login_courier()
-        response = self.client.post("/courier/missions", follow_redirects=True)
+        response = self.client.get("/courier/missions", follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertIn("Here are your pending missions", data)
 
