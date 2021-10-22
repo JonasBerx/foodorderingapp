@@ -212,6 +212,22 @@ def missions():
     return render_template("dashboards/courier/missions.html")
 
 
+@app.route('/courier/missions/<int:order_id>/accept', methods=["POST"])
+@login_required
+def accept_mission(order_id: id):
+    order = Order.query.filter(Order.id == order_id).first()
+    if not order:
+        flash("Invalid request: Item does not exist")
+        return redirect(url_for("missions"))
+
+    order.status = "delivering"
+    db.session.commit()
+
+    flash("Mission Accepted successfully")
+    flash(f'Pick up {order.foods[0].name} from {order.restaurant.name}')
+    return redirect(url_for("missions"))
+
+
 @app.route("/courier/session/start", methods=["POST"])
 @login_required
 def start_new_session():

@@ -48,7 +48,7 @@ class Courier(User):
         return self.in_session()
 
     def get_pending_missions(self):
-        return [order for order in self.missions if order.status == "ongoing"]
+        return [order for order in self.missions if (order.status == "ongoing" or order.status == "delivering")]
 
 
 class Customer(User):
@@ -93,7 +93,7 @@ class Food(db.Model):
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.Enum("ongoing", "finished",
+    status = db.Column(db.Enum("ongoing", "delivering", "finished",
                        "cancelled"), nullable=False)
     foods = db.relationship(
         "Food", secondary=foods, lazy="subquery", backref=db.backref("orders", lazy=True))
