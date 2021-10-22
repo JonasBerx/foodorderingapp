@@ -97,10 +97,12 @@ class DoltTestCaseCourier(unittest.TestCase):
         self.mock_login_courier()
         response = self.client.get("/courier/missions", follow_redirects=True)
         data = response.get_data(as_text=True)
-        self.assertIn("Burgers and Chicken", data)
-        self.assertIn("Pancakes", data)
-        self.assertIn("Restaurant 2", data)
-        self.assertIn("Restaurant 1", data)
+        self.assertIn("Delivery of Burgers and Chicken", data)
+        self.assertIn("Delivery of Pancakes", data)
+        self.assertIn("At Restaurant 2", data)
+        self.assertIn("At Restaurant 1", data)
+        self.assertIn("Accept Mission", data)
+        self.assertIn("Reject Mission", data)
 
 
 if __name__ == '__main__':
