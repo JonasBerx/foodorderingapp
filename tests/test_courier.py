@@ -54,17 +54,25 @@ class DoltTestCaseCourier(unittest.TestCase):
 
     def test_a_courier_can_start_a_session(self):
         self.mock_login_courier()
-        response = self.client.post("/courier/session/start", follow_redirects=True)
+        response = self.client.post(
+            "/courier/session/start", follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertIn("Session Started Successfully", data)
         self.assertIn("Session in Progress", data)
 
     def test_a_courier_can_end_a_session(self):
         self.mock_login_courier()
-        response = self.client.post("/courier/session/end", follow_redirects=True)
+        response = self.client.post(
+            "/courier/session/end", follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertIn("Session Ended Successfully", data)
         self.assertIn("Not In Session", data)
+
+    def test_a_courier_can_see_the_missions_page(self):
+        self.mock_login_courier()
+        response = self.client.post("/courier/missions", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Here are your pending missions", data)
 
 
 if __name__ == '__main__':
