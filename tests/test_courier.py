@@ -126,6 +126,7 @@ class DoltTestCaseCourier(unittest.TestCase):
         self.assertIn("Mission Accepted successfully", data)
         self.assertIn("Pick up Burgers and Chicken from Restaurant 1", data)
         self.assertIn("Delivering", data)
+        self.assertIn("Order Delivered", data)
 
 
 if __name__ == '__main__':
