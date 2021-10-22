@@ -26,6 +26,8 @@ def mock(reset):
     food_2 = Food(name="Food 2", restaurant=partner1, price=7.99)
     food_a = Food(name="Food A", restaurant=partner2, price=10.99)
     food_b = Food(name="Food B", restaurant=partner2, price=12.99)
+    food_burger = Food(name="Burgers and Pancakes",
+                       restaurant=partner2, price=12.99)
 
     order = Order(
         status="finished",
@@ -35,10 +37,18 @@ def mock(reset):
     )
     order.courier = courier
 
+    order2 = Order(
+        status="ongoing",
+        foods=[food_burger],
+        customer=customer,
+        restaurant=food_1.restaurant
+    )
+    order2.courier = courier
+
     db.session.add_all(
         [courier, customer, employee, partner1, partner2,
-         food_1, food_2, food_a, food_b,
-         order]
+         food_1, food_2, food_a, food_b, food_burger,
+         order, order2]
     )
     db.session.commit()
 
