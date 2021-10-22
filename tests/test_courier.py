@@ -1,7 +1,7 @@
 import unittest
 
 from dolt import app, db
-from dolt.models import Courier
+from dolt.models import Courier, Order, Customer, Partner, Food
 
 
 class DoltTestCaseCourier(unittest.TestCase):
@@ -15,8 +15,37 @@ class DoltTestCaseCourier(unittest.TestCase):
 
         courier = Courier(name="COU", username="cou")  # noqa
         courier.set_password("12345")
+        customer = Customer(name="CUS", username="cus")  # noqa
+        customer.set_password("123456")
 
-        db.session.add_all([courier])
+        partner1 = Partner(name="Restaurant 1", username="par")  # noqa
+        partner1.set_password("12345678")
+        partner2 = Partner(name="Restaurant 2", username="par2")  # noqa
+        partner2.set_password("12345678")
+
+        food_a = Food(name="Burgers and Chicken",
+                      restaurant=partner1, price=10.99)
+        food_b = Food(name="Pancakes", restaurant=partner2, price=12.99)
+
+        order1 = Order(
+            status="ongoing",
+            foods=[food_a],
+            customer=customer,
+            restaurant=food_a.restaurant
+        )
+        order1.courier = courier
+
+        order2 = Order(
+            status="ongoing",
+            foods=[food_b],
+            customer=customer,
+            restaurant=food_b.restaurant
+        )
+        order2.courier = courier
+
+        db.session.add_all([courier, customer, partner1, partner2,
+                            food_a, food_b,
+                            order1, order2])
         db.session.commit()
 
         self.client = app.test_client()
@@ -31,16 +60,6 @@ class DoltTestCaseCourier(unittest.TestCase):
             data=dict(
                 username="cou",
                 password="12345"
-            ),
-            follow_redirects=True
-        )
-
-    def mock_login(self):
-        self.client.post(
-            "/login",
-            data=dict(
-                username="cus",
-                password="123456",
             ),
             follow_redirects=True
         )

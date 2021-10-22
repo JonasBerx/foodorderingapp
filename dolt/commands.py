@@ -28,7 +28,7 @@ def mock(reset):
     food_b = Food(name="Food B", restaurant=partner2, price=12.99)
 
     order = Order(
-        status="ongoing",
+        status="finished",
         foods=[food_1],
         customer=customer,
         restaurant=food_1.restaurant
