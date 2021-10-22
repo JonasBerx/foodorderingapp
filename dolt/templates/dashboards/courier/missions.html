@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block content %}
 <h3>Here are your pending missions, dear courier {{ current_user.name }}!</h3>
 <div>
-  {% for mission in current_user.missions[::-1] %}
+  {% for mission in current_user.get_pending_missions() %}
   <ul class="item-list">
     <li>
       <span class="title">At {{ mission.restaurant.name }}</span>
