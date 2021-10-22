@@ -86,7 +86,15 @@ def partner_menu():
 @app.route("/partner/menu/delete/<int:food_id>", methods=["POST"])
 @login_required
 def partner_menu_delete(food_id: int):
-    food = Food.query.get_or_404(food_id)
+    food = Food.query.filter(Food.id == food_id).first()  # noqa
+
+    if not food:
+        flash("Invalid request: Item does not exist")
+        return redirect(url_for("partner_menu"))
+    elif food.restaurant != current_user:
+        flash("Invalid request: Unauthorized")
+        return redirect(url_for("partner_menu"))
+
     db.session.delete(food)
     db.session.commit()
     flash("Item deleted")
@@ -96,7 +104,14 @@ def partner_menu_delete(food_id: int):
 @app.route("/partner/menu/edit/<int:food_id>", methods=["GET", "POST"])
 @login_required
 def partner_menu_edit(food_id: int):
-    food = Food.query.get_or_404(food_id)
+    food = Food.query.filter(Food.id == food_id).first()  # noqa
+
+    if not food:
+        flash("Invalid request: Item does not exist")
+        return redirect(url_for("partner_menu"))
+    elif food.restaurant != current_user:
+        flash("Invalid request: Unauthorized")
+        return redirect(url_for("partner_menu"))
 
     if request.method != "POST":
         return render_template("dashboards/partner/edit.html", food=food)
@@ -107,10 +122,10 @@ def partner_menu_edit(food_id: int):
     # Check input values
     if not name:
         flash("Invalid input: Please enter a name")
-        return redirect(url_for("partner_menu"))
+        return redirect(url_for("partner_menu_edit", food_id=food.id))
     elif price is None:
         flash("Invalid input: Please enter a valid price")
-        return redirect(url_for("partner_menu"))
+        return redirect(url_for("partner_menu_edit", food_id=food.id))
 
     food.name = name
     food.price = price
