@@ -54,6 +54,16 @@ class DoltTestCasePartner(unittest.TestCase):
             follow_redirects=True
         )
 
+    def mock_login_breaker(self):
+        self.client.post(
+            "/login",
+            data=dict(
+                username="par2",
+                password="12345678"
+            ),
+            follow_redirects=True
+        )
+
     def test_index_restaurants(self):
         response = self.client.get("/")
         data = response.get_data(as_text=True)
@@ -159,6 +169,43 @@ class DoltTestCasePartner(unittest.TestCase):
         data = response.get_data(as_text=True)
         self.assertIn("Item deleted", data)
         self.assertNotIn("Food 1", data)
+
+    def test_invalid_management_item_does_not_exist(self):
+        self.mock_login_partner()
+
+        response = self.client.post("/partner/menu/edit/8", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertNotIn("Edit item", data)
+        self.assertIn("Invalid request: Item does not exist", data)
+
+        response = self.client.post("/partner/menu/delete/8", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertNotIn("Item deleted", data)
+        self.assertNotIn("Page Not Found - 404", data)
+        self.assertIn("Invalid request: Item does not exist", data)
+
+    def test_invalid_management_unauthorized(self):
+        self.mock_login_breaker()
+
+        response = self.client.post(
+            "/partner/menu/edit/1",
+            data=dict(
+                name="New Food 1",
+                price=8.99
+            ),
+            follow_redirects=True
+        )
+        data = response.get_data(as_text=True)
+        self.assertNotIn("Item updated", data)
+        self.assertNotIn("New Food 1", data)
+        self.assertNotIn("8.99", data)
+        self.assertIn("Invalid request: Unauthorized", data)
+
+        response = self.client.post("/partner/menu/delete/1", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertNotIn("Item deleted", data)
+        self.assertNotIn("Page Not Found - 404", data)
+        self.assertIn("Invalid request: Unauthorized", data)
 
 
 if __name__ == '__main__':
