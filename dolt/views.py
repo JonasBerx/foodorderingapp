@@ -228,6 +228,21 @@ def accept_mission(order_id: id):
     return redirect(url_for("missions"))
 
 
+@app.route('/courier/missions/<int:order_id>/reject', methods=["POST"])
+@login_required
+def reject_mission(order_id: id):
+    order = Order.query.filter(Order.id == order_id).first()
+    if not order:
+        flash("Invalid request: Item does not exist")
+        return redirect(url_for("missions"))
+
+    order.courier_id = None
+    db.session.commit()
+
+    flash("Mission Rejected successfully")
+    return redirect(url_for("missions"))
+
+
 @app.route("/courier/session/start", methods=["POST"])
 @login_required
 def start_new_session():

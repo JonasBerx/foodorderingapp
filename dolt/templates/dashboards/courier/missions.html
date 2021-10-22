@@ -21,13 +21,13 @@
                 <input class="btn" type="submit" name="submit" value="Accept Mission">
             </form> 
             <br>
-            <form method="post" action="{{ url_for("end_current_session") }}">
+            <form method="post" action="{{ url_for("reject_mission", order_id=mission.id) }}">
                 <input class="btn" type="submit" name="submit" value="Reject Mission">
             </form>
         {% endif %}
 
         {% if mission.status == 'delivering' %}
-            <form method="post" action="{{ url_for("end_current_session") }}">
+            <form method="post" action="">
                 <input class="btn" type="submit" name="submit" value="Order Delivered">
             </form> 
             <br>
