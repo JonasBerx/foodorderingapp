@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Edit item</h3>
+
+    <form method="post" class="input-form">
+        <p class="input-p">
+            <label for="inm" class="input-label">Name:</label>
+            <input id="inm" class="input-input" type="text" name="name" placeholder="Enter the name" required value="{{ food.name }}">
+        </p>
+        <br>
+        <p class="input-p">
+            <label for="price" class="input-label">Price:</label>
+            <input id="price" class="input-input" type="number" name="price" placeholder="Enter the price" required value="{{ food.price }}">
+        </p>
+        <br>
+        <input class="btn" type="submit" name="submit" value="Update">
+    </form>
+{% endblock %}

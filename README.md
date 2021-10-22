@@ -11,7 +11,7 @@ Team 0 ~ Food ordering and management application using Python
 3. [x] Start session -> Courier
 4. [x] End session -> Courier
 5. Accept order delivery -> courier
-6. manage menu - changing/removing/adding -> partner
+6. Manage menu: Changing & Removing & Adding -> Partner
 7. [x] Login & Logout 
 8. [x] Profile update
 
@@ -34,7 +34,7 @@ Team 0 ~ Food ordering and management application using Python
 ```bash
 git clone https://github.com/JonasBerx/foodorderingapp.git
 cd foodorderingapp
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt

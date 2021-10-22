@@ -15,7 +15,7 @@ def index():
 @app.route("/courier")
 @login_required
 def courier():
-    return render_template("dashboards/courier.html")
+    return render_template("dashboards/courier/index.html")
 
 
 @app.route("/order/new/<int:food_id>", methods=["POST"])
@@ -42,19 +42,37 @@ def order(food_id: int):
 @app.route("/orders")
 @login_required
 def orders():
-    return render_template("dashboards/customer.html")
+    return render_template("dashboards/customer/index.html")
 
 
 @app.route("/employee")
 @login_required
 def employee():
-    return render_template("dashboards/employee.html")
+    return render_template("dashboards/employee/index.html")
 
 
 @app.route("/partner")
 @login_required
 def partner():
-    return render_template("dashboards/partner.html")
+    return render_template("dashboards/partner/index.html")
+
+
+@app.route("/partner/menu")
+@login_required
+def partner_menu():
+    return render_template("dashboards/partner/menu.html")
+
+
+@app.route("/partner/menu/delete/<int:food_id>")
+@login_required
+def partner_menu_delete(food_id: int):
+    return render_template("dashboards/partner/menu.html")
+
+
+@app.route("/partner/menu/edit/<int:food_id>")
+@login_required
+def partner_menu_edit(food_id: int):
+    return render_template("dashboards/partner/edit.html")
 
 
 @app.route("/login", methods=["GET", "POST"])

@@ -80,13 +80,14 @@ foods = db.Table(
 
 class Food(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(32))
+    name = db.Column(db.String(32), nullable=False)
+    price = db.Column(db.Float, nullable=False)
     partner_id = db.Column(db.Integer(), db.ForeignKey("partner.id"))
 
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.String(32), nullable=False)
+    status = db.Column(db.Enum("ongoing", "finished", "cancelled"), nullable=False)
     foods = db.relationship("Food", secondary=foods, lazy="subquery", backref=db.backref("orders", lazy=True))
     partner_id = db.Column(db.Integer(), db.ForeignKey("partner.id"))
     customer_id = db.Column(db.Integer(), db.ForeignKey("customer.id"))
