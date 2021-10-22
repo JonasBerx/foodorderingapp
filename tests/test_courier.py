@@ -118,6 +118,15 @@ class DoltTestCaseCourier(unittest.TestCase):
         data = response.get_data(as_text=True)
         self.assertNotIn("Finished", data)
 
+    def test_a_courier_can_accept_a_mission(self):
+        self.mock_login_courier()
+        response = self.client.post(
+            "/courier/missions/1/accept", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Mission Accepted successfully", data)
+        self.assertIn("Pick up Burgers and Chicken from Restaurant 1", data)
+        self.assertIn("Delivering", data)
+
 
 if __name__ == '__main__':
     unittest.main()
