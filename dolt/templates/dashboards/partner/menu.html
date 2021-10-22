@@ -26,7 +26,7 @@
                     {% endif %}
                 </span>
             </li>
-            <li>Price: {{ food.price }}</li>
+            <li>Price: {{ food.price | price_format }}</li>
         </ul>
     {% endfor %}
 {% endblock %}

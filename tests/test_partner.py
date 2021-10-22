@@ -135,7 +135,7 @@ class DoltTestCasePartner(unittest.TestCase):
         data = response.get_data(as_text=True)
         self.assertIn("Item updated", data)
         self.assertIn("New Food 1", data)
-        self.assertIn("8.99", data)
+        self.assertIn("8,99", data)
 
         response = self.client.post(
             "/partner/menu/edit/1",
@@ -198,7 +198,7 @@ class DoltTestCasePartner(unittest.TestCase):
         data = response.get_data(as_text=True)
         self.assertNotIn("Item updated", data)
         self.assertNotIn("New Food 1", data)
-        self.assertNotIn("8.99", data)
+        self.assertNotIn("8,99", data)
         self.assertIn("Invalid request: Unauthorized", data)
 
         response = self.client.post("/partner/menu/delete/1", follow_redirects=True)
