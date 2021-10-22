@@ -43,6 +43,14 @@ class DoltTestCaseCourier(unittest.TestCase):
         )
         order2.courier = courier
 
+        order3 = Order(
+            status="finished",
+            foods=[food_b],
+            customer=customer,
+            restaurant=food_b.restaurant
+        )
+        order3.courier = courier
+
         db.session.add_all([courier, customer, partner1, partner2,
                             food_a, food_b,
                             order1, order2])
@@ -93,7 +101,7 @@ class DoltTestCaseCourier(unittest.TestCase):
         data = response.get_data(as_text=True)
         self.assertIn("Here are your pending missions", data)
 
-    def test_a_courier_can_see_the_pending_missions_assinged_to_him(self):
+    def test_a_courier_can_see_the_missions_assinged_to_him(self):
         self.mock_login_courier()
         response = self.client.get("/courier/missions", follow_redirects=True)
         data = response.get_data(as_text=True)
@@ -103,6 +111,12 @@ class DoltTestCaseCourier(unittest.TestCase):
         self.assertIn("At Restaurant 1", data)
         self.assertIn("Accept Mission", data)
         self.assertIn("Reject Mission", data)
+
+    def test_a_courier_can_only_see_the_pending_missions_assinged_to_him(self):
+        self.mock_login_courier()
+        response = self.client.get("/courier/missions", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertNotIn("Finished", data)
 
 
 if __name__ == '__main__':
