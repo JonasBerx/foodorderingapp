@@ -2,7 +2,7 @@
 
 {% block content %}
     <h3>Menu</h3>
-    <span>You have {{ foods | length }} items</span>
+    <span>You have {{ current_user.menu | length }} items</span>
     <hr>
     <br>
     <form method="post">

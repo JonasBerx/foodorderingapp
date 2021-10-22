@@ -94,10 +94,10 @@ class DoltTestCasePartner(unittest.TestCase):
         self.assertIn("Invalid input: Please enter a name", data)
 
         response = self.client.post(
-            "/",
+            "/partner/menu",
             data=dict(
                 name="New Food",
-                price=None
+                price="price?"
             ),
             follow_redirects=True
         )
@@ -108,14 +108,14 @@ class DoltTestCasePartner(unittest.TestCase):
     def test_update_item(self):
         self.mock_login_partner()
 
-        response = self.client.get("/menu/edit/1")
+        response = self.client.get("/partner/menu/edit/1")
         data = response.get_data(as_text=True)
         self.assertIn("Edit item", data)
         self.assertIn("Food 1", data)
         self.assertIn("6.99", data)
 
         response = self.client.post(
-            "/menu/edit/1",
+            "/partner/menu/edit/1",
             data=dict(
                 name="New Food 1",
                 price=8.99
@@ -128,7 +128,7 @@ class DoltTestCasePartner(unittest.TestCase):
         self.assertIn("8.99", data)
 
         response = self.client.post(
-            "/menu/edit/1",
+            "/partner/menu/edit/1",
             data=dict(
                 name="",
                 price=8.99
@@ -140,7 +140,7 @@ class DoltTestCasePartner(unittest.TestCase):
         self.assertIn("Invalid input: Please enter a name", data)
 
         response = self.client.post(
-            "/menu/edit/1",
+            "/partner/menu/edit/1",
             data=dict(
                 name="Newer Food 1",
                 price="price?"
@@ -155,7 +155,7 @@ class DoltTestCasePartner(unittest.TestCase):
     def test_delete_item(self):
         self.mock_login_partner()
 
-        response = self.client.post("/menu/delete/1", follow_redirects=True)
+        response = self.client.post("/partner/menu/delete/1", follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertIn("Item deleted", data)
         self.assertNotIn("Food 1", data)

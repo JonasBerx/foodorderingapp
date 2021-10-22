@@ -10,6 +10,8 @@
 
 .idea/
 *.db
+*.swp
+test.sh
 pip.sh
 
 # Byte-compiled / optimized / DLL files

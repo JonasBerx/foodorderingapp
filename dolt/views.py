@@ -4,6 +4,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from dolt import app, db, login_manager
 from dolt.errors import bad_request
 from dolt.models import Food, Order, Partner, User
+from dolt.utils import get_float
 
 
 @app.route("/")
@@ -28,12 +29,13 @@ def order(food_id: int):
         return redirect(url_for("index"))
 
     restaurant = food.restaurant
-    Order(
+    new_order = Order(
         status="ongoing",
         customer=current_user,
         restaurant=restaurant,
         foods=[food]
     )
+    db.session.add(new_order)
     db.session.commit()
     flash("Order created")
     return redirect(url_for("orders"))
@@ -57,22 +59,64 @@ def partner():
     return render_template("dashboards/partner/index.html")
 
 
-@app.route("/partner/menu")
+@app.route("/partner/menu", methods=["GET", "POST"])
 @login_required
 def partner_menu():
-    return render_template("dashboards/partner/menu.html")
+    if request.method != "POST":
+        return render_template("dashboards/partner/menu.html")
+
+    name = request.form["name"]
+    price = get_float(request.form["price"])
+
+    # Check input values
+    if not name:
+        flash("Invalid input: Please enter a name")
+        return redirect(url_for("partner_menu"))
+    elif price is None:
+        flash("Invalid input: Please enter a valid price")
+        return redirect(url_for("partner_menu"))
+
+    food = Food(name=name, price=price, restaurant=current_user)
+    db.session.add(food)
+    db.session.commit()
+    flash("Item added")
+    return redirect(url_for("partner_menu"))
 
 
-@app.route("/partner/menu/delete/<int:food_id>")
+@app.route("/partner/menu/delete/<int:food_id>", methods=["POST"])
 @login_required
 def partner_menu_delete(food_id: int):
-    return render_template("dashboards/partner/menu.html")
+    food = Food.query.get_or_404(food_id)
+    db.session.delete(food)
+    db.session.commit()
+    flash("Item deleted")
+    return redirect(url_for("partner_menu"))
 
 
-@app.route("/partner/menu/edit/<int:food_id>")
+@app.route("/partner/menu/edit/<int:food_id>", methods=["GET", "POST"])
 @login_required
 def partner_menu_edit(food_id: int):
-    return render_template("dashboards/partner/edit.html")
+    food = Food.query.get_or_404(food_id)
+
+    if request.method != "POST":
+        return render_template("dashboards/partner/edit.html", food=food)
+
+    name = request.form["name"]
+    price = get_float(request.form["price"])
+
+    # Check input values
+    if not name:
+        flash("Invalid input: Please enter a name")
+        return redirect(url_for("partner_menu"))
+    elif price is None:
+        flash("Invalid input: Please enter a valid price")
+        return redirect(url_for("partner_menu"))
+
+    food.name = name
+    food.price = price
+    db.session.commit()
+    flash("Item updated")
+    return redirect(url_for("partner_menu"))
 
 
 @app.route("/login", methods=["GET", "POST"])
