@@ -93,6 +93,15 @@ class DoltTestCaseCourier(unittest.TestCase):
         data = response.get_data(as_text=True)
         self.assertIn("Here are your pending missions", data)
 
+    def test_a_courier_can_see_the_pending_missions_assinged_to_him(self):
+        self.mock_login_courier()
+        response = self.client.get("/courier/missions", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Burgers and Chicken", data)
+        self.assertIn("Pancakes", data)
+        self.assertIn("Restaurant 2", data)
+        self.assertIn("Restaurant 1", data)
+
 
 if __name__ == '__main__':
     unittest.main()
