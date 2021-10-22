@@ -11,7 +11,7 @@ Team 0 ~ Food ordering and management application using Python
 3. [x] Start session -> Courier
 4. [x] End session -> Courier
 5. [x] Accept order delivery -> courier
-6. Reject order delivery -> courier
+6. [x] Reject order delivery -> courier
 7. [x] Manage menu: Changing & Removing & Adding -> Partner
 8. [x] Login & Logout 
 9. [x] Profile update

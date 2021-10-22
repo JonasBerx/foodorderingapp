@@ -146,6 +146,14 @@ class DoltTestCaseCourier(unittest.TestCase):
         self.assertNotIn("Delivering", data)
         self.assertNotIn("Order Delivered", data)
 
+    def test_a_courier_cannot_reject_an_invalid_mission(self):
+        self.mock_login_courier()
+        response = self.client.post(
+            "/courier/missions/100/reject", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Item does not exist", data)
+        self.assertIn("Ongoing", data)
+
 
 if __name__ == '__main__':
     unittest.main()
