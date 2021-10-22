@@ -29,7 +29,8 @@ class Courier(User):
         "polymorphic_identity": "courier",
     }
     id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
-    session_status = db.Column(db.Enum("0", "1"), nullable=False, server_default="0")
+    session_status = db.Column(
+        db.Enum("0", "1"), nullable=False, server_default="0")
     missions = db.relationship("Order", backref="courier", lazy=True)
 
     def in_session(self):
@@ -45,6 +46,9 @@ class Courier(User):
     def end_session(self):
         self.set_session_status("0")
         return self.in_session()
+
+    def get_pending_missions(self):
+        return [order for order in self.missions if (order.status == "ongoing" or order.status == "delivering")]
 
 
 class Customer(User):
@@ -73,8 +77,10 @@ class Partner(User):
 
 foods = db.Table(
     "foods",
-    db.Column("food_id", db.Integer, db.ForeignKey("food.id"), primary_key=True),
-    db.Column("order_id", db.Integer, db.ForeignKey("order.id"), primary_key=True)
+    db.Column("food_id", db.Integer, db.ForeignKey(
+        "food.id"), primary_key=True),
+    db.Column("order_id", db.Integer, db.ForeignKey(
+        "order.id"), primary_key=True)
 )
 
 
@@ -87,8 +93,10 @@ class Food(db.Model):
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.Enum("ongoing", "finished", "cancelled"), nullable=False)
-    foods = db.relationship("Food", secondary=foods, lazy="subquery", backref=db.backref("orders", lazy=True))
+    status = db.Column(db.Enum("ongoing", "delivering", "finished",
+                       "cancelled"), nullable=False)
+    foods = db.relationship(
+        "Food", secondary=foods, lazy="subquery", backref=db.backref("orders", lazy=True))
     partner_id = db.Column(db.Integer(), db.ForeignKey("partner.id"))
     customer_id = db.Column(db.Integer(), db.ForeignKey("customer.id"))
     courier_id = db.Column(db.Integer(), db.ForeignKey("courier.id"))
