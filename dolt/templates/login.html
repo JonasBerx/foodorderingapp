@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h3> Log in </h3>
-<form method="post" class="login-form">
-    <p class="login-p">
-        <label for="unm" class="login-label">Username:</label>
-        <input id="unm" class="login-input" type="text" name="username" placeholder="Enter your username" required>
-    </p>
-    <br>
-    <p class="login-p">
-        <label for="pwd" class="login-label">Password:</label>
-        <input id="pwd" class="login-input" type="password" name="password" placeholder="Enter your password" required>
-    </p>
-    <br>
-    <input class="btn" type="submit" name="submit" value="Submit">
-</form>
+    <h3> Log in </h3>
+    <form method="post" class="input-form">
+        <p class="input-p">
+            <label for="unm" class="input-label">Username:</label>
+            <input id="unm" class="input-input" type="text" name="username" placeholder="Enter your username" required>
+        </p>
+        <br>
+        <p class="input-p">
+            <label for="pwd" class="input-label">Password:</label>
+            <input id="pwd" class="input-input" type="password" name="password" placeholder="Enter your password" required>
+        </p>
+        <br>
+        <input class="btn" type="submit" name="submit" value="Submit">
+    </form>
 {% endblock %}

@@ -19,8 +19,8 @@ class DoltTestCaseCourier(unittest.TestCase):
         partner1 = Partner(name="Restaurant 1", username="par")  # noqa
         partner1.set_password("12345678")
 
-        food_1 = Food(name="Food 1", restaurant=partner1)
-        food_2 = Food(name="Food 2", restaurant=partner1)
+        food_1 = Food(name="Food 1", restaurant=partner1, price=6.99)
+        food_2 = Food(name="Food 2", restaurant=partner1, price=7.99)
 
         db.session.add_all([customer, partner1, food_1, food_2])
         db.session.commit()

@@ -16,6 +16,12 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 
 
+@app.template_filter()
+def price_format(value: float) -> str:
+    value = float(value)
+    return f"{value:.2f} €".replace(".", ",")
+
+
 @login_manager.user_loader
 def load_user(user_id):
     from dolt.models import User

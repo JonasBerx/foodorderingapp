@@ -22,10 +22,10 @@ def mock(reset):
     partner2 = Partner(name="Restaurant 2", username="par2")  # noqa
     partner2.set_password("12345678")
 
-    food_1 = Food(name="Food 1", restaurant=partner1)
-    food_2 = Food(name="Food 2", restaurant=partner1)
-    food_a = Food(name="Food A", restaurant=partner2)
-    food_b = Food(name="Food B", restaurant=partner2)
+    food_1 = Food(name="Food 1", restaurant=partner1, price=6.99)
+    food_2 = Food(name="Food 2", restaurant=partner1, price=7.99)
+    food_a = Food(name="Food A", restaurant=partner2, price=10.99)
+    food_b = Food(name="Food B", restaurant=partner2, price=12.99)
 
     order = Order(
         status="finished",

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Orders List</h3>
+
+    {% for order in current_user.orders[::-1] %}
+        <ul class="item-list">
+            <li>
+                <span class="title">{{ order.restaurant.name }}</span>
+                <span class="float-right">{{ order.status.capitalize() }}</span>
+            </li>
+            {% for food in order.foods %}
+                <li>{{ food.name }}<span class="float-right">{{ food.price | price_format }}</span></li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% endblock %}

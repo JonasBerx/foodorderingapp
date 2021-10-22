@@ -50,10 +50,10 @@ nav li a:hover {
     margin-right: 10px;
 }
 
-.login-form  { display: table;      }
-.login-p     { display: table-row;  }
-.login-label { display: table-cell; }
-.login-input { display: table-cell; margin-left: 5px; }
+.input-form  { display: table;      }
+.input-p     { display: table-row;  }
+.input-label { display: table-cell; }
+.input-input { display: table-cell; margin-left: 5px; }
 
 input[type=submit] {
     font-family: inherit;
@@ -107,6 +107,11 @@ input[type=text] input[type=password] {
 
 .inline-form {
     display: inline;
+}
+
+.item-list li span.price {
+    font-size: 12px;
+    margin-right: 5px;
 }
 
 .order {
