@@ -7,7 +7,7 @@ Team 0 ~ Food ordering and management application using Python
 ## Requirements chosen
 
 1. [x] **FR01:** Place order -> Customer
-2. **FR06:** Manage order -> Employee
+2. [x] **FR06:** Manage order -> Employee
 3. [x] **FR07:** Accept delivery mission -> Courier
 4. [x] **FR08:** Reject delivery mission -> Courier
 5. [x] **FR09:** Start / Stop session -> Courier
