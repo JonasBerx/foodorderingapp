@@ -9,6 +9,14 @@
                 <span class="title">At {{ mission.restaurant.name }}</span>
                 <span class="float-right">{{ mission.status.capitalize() }}</span>
             </li>
+            <li>
+                <span>Customer</span>
+                <span class="float-right">{{ mission.customer.name }}</span>
+            </li>
+            <li>
+                <span>Address</span>
+                <span class="float-right">{{ mission.customer.address }}</span>
+            </li>
             {% for food in mission.foods %}
                 <li>
                   Delivery of {{ food.name }}
