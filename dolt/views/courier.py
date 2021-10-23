@@ -8,7 +8,7 @@ from dolt.models import Order
 
 
 def check_order_authentication(order_id: int) -> Tuple[bool, Optional[Order]]:
-    the_order = Order.query.filter(Order.id == order_id).first()
+    the_order = Order.query.filter(Order.id == order_id).first()  # noqa
 
     if not the_order:
         flash("Invalid request: Item does not exist")

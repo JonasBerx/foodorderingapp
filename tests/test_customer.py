@@ -41,6 +41,16 @@ class DoltTestCaseCourier(unittest.TestCase):
             follow_redirects=True
         )
 
+    def mock_login_partner(self):
+        self.client.post(
+            "/login",
+            data=dict(
+                username="par",
+                password="12345678"
+            ),
+            follow_redirects=True
+        )
+
     def test_order_food(self):
         self.mock_login()
         response = self.client.post("/order/new/1", follow_redirects=True)
@@ -67,6 +77,29 @@ class DoltTestCaseCourier(unittest.TestCase):
         data = response.get_data(as_text=True)
         self.assertNotIn("Unauthorized", data)
         self.assertIn("Please login first", data)
+
+    def test_orders_template(self):
+        self.mock_login()
+        self.client.post("/order/new/1", follow_redirects=True)
+        response = self.client.get("/orders", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Restaurant 1", data)
+        self.assertIn("Ongoing", data)
+        self.assertIn("Food 1", data)
+
+    def test_order_auth_check(self):
+        self.mock_login_partner()
+        response = self.client.post("/order/new/1", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Order created", data)
+
+    def test_orders_auth_check(self):
+        self.mock_login_partner()
+        response = self.client.get("/orders", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Orders List", data)
 
 
 if __name__ == "__main__":

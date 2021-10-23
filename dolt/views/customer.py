@@ -9,6 +9,7 @@ from dolt.models import Food, Order
 @login_required
 def order(food_id: int):
     if current_user.type != "customer":
+        flash("Invalid request: Unauthorized")
         return redirect(url_for("index"))
 
     food = Food.query.filter(Food.id == food_id).first()
@@ -35,6 +36,7 @@ def order(food_id: int):
 @login_required
 def orders():
     if current_user.type != "customer":
+        flash("Invalid request: Unauthorized")
         return redirect(url_for("index"))
 
     return render_template("dashboards/customer/index.html")
