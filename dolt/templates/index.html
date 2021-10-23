@@ -10,18 +10,16 @@
             <li><span class="title">{{ restaurant.name }}</span></li>
             {% for food in restaurant.menu %}
                 <li>{{ food.name }}
-                    <span class="float-right">
-                        <span class="price">{{ food.price | price_format }}</span>
-                        {% if not current_user.type or current_user.type == "customer" %}
-                            <form class="inline-form" method="post" action="{{ url_for("order", food_id=food.id) }}">
-                                {% if not current_user.type %}
-                                    <input class="order" type="submit" name="order" value="Order">
-                                {% else %}
-                                    <input class="order" type="submit" name="order" value="Order" onclick="return confirm('Are you sure?')">
-                                {% endif %}
-                            </form>
-                        {% endif %}
-                    </span>
+                    {% if not current_user.type or current_user.type == "customer" %}
+                        <form class="inline-form float-right" method="post" action="{{ url_for("order", food_id=food.id) }}">
+                            {% if not current_user.type %}
+                                <input class="order" type="submit" name="order" value="Order">
+                            {% else %}
+                                <input class="order" type="submit" name="order" value="Order" onclick="return confirm('Are you sure?')">
+                            {% endif %}
+                        </form>
+                    {% endif %}
+                    <span class="price float-right">{{ food.price | price_format }}</span>
                 </li>
             {% endfor %}
         </ul>

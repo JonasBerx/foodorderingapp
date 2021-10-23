@@ -50,7 +50,16 @@ def orders():
 @app.route("/employee")
 @login_required
 def employee():
-    return render_template("dashboards/employee/index.html")
+    ongoing_orders = Order.query.filter(Order.status == "ongoing").all()
+    delivering_orders = Order.query.filter(Order.status == "delivering").all()
+    return render_template("dashboards/employee/index.html", orders=ongoing_orders + delivering_orders)
+
+
+@app.route("/employee_cancel/<int:order_id>")
+@login_required
+def employee_cancel(order_id: int):
+    ongoing_orders = Order.query.filter(Order.status == "ongoing").all()
+    return render_template("dashboards/employee/index.html", orders=ongoing_orders)
 
 
 @app.route("/partner")

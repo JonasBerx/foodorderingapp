@@ -62,7 +62,7 @@ class DoltTestCaseCourier(unittest.TestCase):
         response = self.client.get("/employee")
         data = response.get_data(as_text=True)
         self.assertIn("Welcome, dear employee Lisa Simpson!", data)
-        self.assertIn("Marge's", data)
+        self.assertIn("Marge&#39;s", data)
         self.assertIn("Ongoing", data)
         self.assertIn("Bart Simpson", data)
         self.assertIn("Earth, the Solar System", data)
