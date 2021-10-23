@@ -25,6 +25,7 @@ def check_food_authentication(food_id: int) -> Tuple[bool, Optional[Food]]:
 @login_required
 def partner():
     if current_user.type != "partner":
+        flash("Invalid request: Unauthorized")
         return redirect(url_for("index"))
 
     return render_template("dashboards/partner/index.html")
@@ -34,6 +35,7 @@ def partner():
 @login_required
 def partner_menu():
     if current_user.type != "partner":
+        flash("Invalid request: Unauthorized")
         return redirect(url_for("index"))
 
     if request.method != "POST":
@@ -62,6 +64,7 @@ def partner_menu():
 @login_required
 def partner_menu_delete(food_id: int):
     if current_user.type != "partner":
+        flash("Invalid request: Unauthorized")
         return redirect(url_for("index"))
 
     auth, food = check_food_authentication(food_id)
@@ -72,6 +75,7 @@ def partner_menu_delete(food_id: int):
     db.session.delete(food)
     db.session.commit()
     flash("Item deleted")
+
     return redirect(url_for("partner_menu"))
 
 
@@ -79,6 +83,7 @@ def partner_menu_delete(food_id: int):
 @login_required
 def partner_menu_edit(food_id: int):
     if current_user.type != "partner":
+        flash("Invalid request: Unauthorized")
         return redirect(url_for("index"))
 
     auth, food = check_food_authentication(food_id)
@@ -104,4 +109,5 @@ def partner_menu_edit(food_id: int):
     food.price = price
     db.session.commit()
     flash("Item updated")
+
     return redirect(url_for("partner_menu"))

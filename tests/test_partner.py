@@ -1,7 +1,7 @@
 import unittest
 
 from dolt import app, db
-from dolt.models import Partner, Food
+from dolt.models import Customer, Food, Partner
 
 
 class DoltTestCasePartner(unittest.TestCase):
@@ -25,7 +25,11 @@ class DoltTestCasePartner(unittest.TestCase):
         food_a = Food(name="Food A", restaurant=partner2, price=10.99)
         food_b = Food(name="Food B", restaurant=partner2, price=12.99)
 
-        db.session.add_all([partner1, partner2, food_1, food_2, food_a, food_b])
+        customer = Customer(name="CUS", username="cus", address="Earth, the Solar System")  # noqa
+        customer.set_password("123456")
+
+        db.session.add_all([partner1, partner2, food_1, food_2, food_a, food_b,
+                            customer])
         db.session.commit()
 
         self.client = app.test_client()
@@ -34,7 +38,7 @@ class DoltTestCasePartner(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
-    def mock_login(self):
+    def mock_login_customer(self):
         self.client.post(
             "/login",
             data=dict(
@@ -164,7 +168,6 @@ class DoltTestCasePartner(unittest.TestCase):
 
     def test_delete_item(self):
         self.mock_login_partner()
-
         response = self.client.post("/partner/menu/delete/1", follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertIn("Item deleted", data)
@@ -206,6 +209,41 @@ class DoltTestCasePartner(unittest.TestCase):
         self.assertNotIn("Item deleted", data)
         self.assertNotIn("Page Not Found - 404", data)
         self.assertIn("Invalid request: Unauthorized", data)
+
+    def test_dashboard_auth_check(self):
+        self.mock_login_customer()
+        response = self.client.get("/partner", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Manage menu", data)
+
+    def test_menu_check(self):
+        self.mock_login_customer()
+        response = self.client.get("/partner/menu", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("/partner/menu/delete/1", data)
+
+    def test_delete_item_auth_check(self):
+        self.mock_login_customer()
+        response = self.client.post("/partner/menu/delete/1", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Item deleted", data)
+
+    def test_edit_item_auth_check(self):
+        self.mock_login_customer()
+        response = self.client.post(
+            "/partner/menu/edit/1",
+            data=dict(
+                name="Newer Food 1",
+                price=1.99
+            ),
+            follow_redirects=True
+        )
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Item updated", data)
 
 
 if __name__ == "__main__":
