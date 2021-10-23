@@ -15,7 +15,7 @@ class DoltTestCaseCourier(unittest.TestCase):
 
         courier = Courier(name="COU", username="cou")  # noqa
         courier.set_password("12345")
-        customer = Customer(name="CUS", username="cus")  # noqa
+        customer = Customer(name="CUS", username="cus", address="Earth, the Solar System")  # noqa
         customer.set_password("123456")
 
         partner1 = Partner(name="Restaurant 1", username="par")  # noqa

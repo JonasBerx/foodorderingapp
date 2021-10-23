@@ -56,6 +56,7 @@ class Customer(User):
         "polymorphic_identity": "customer",
     }
     id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
+    address = db.Column(db.String(64), nullable=False)
     orders = db.relationship("Order", backref="customer", lazy=True)
 
 

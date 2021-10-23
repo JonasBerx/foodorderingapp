@@ -11,15 +11,15 @@ def mock(reset):
     reset and db.drop_all()
     db.create_all()
 
-    courier = Courier(name="COU", username="cou")  # noqa
+    courier = Courier(name="Homer Simpson", username="cou")  # noqa
     courier.set_password("12345")
-    customer = Customer(name="CUS", username="cus")  # noqa
+    customer = Customer(name="Bart Simpson", username="cus", address="Earth, the Solar System")  # noqa
     customer.set_password("123456")
-    employee = Employee(name="EMP", username="emp")  # noqa
+    employee = Employee(name="Lisa Simpson", username="emp")  # noqa
     employee.set_password("1234567")
-    partner1 = Partner(name="Restaurant 1", username="par")  # noqa
+    partner1 = Partner(name="Marge's", username="par")  # noqa
     partner1.set_password("12345678")
-    partner2 = Partner(name="Restaurant 2", username="par2")  # noqa
+    partner2 = Partner(name="Maggie's", username="par2")  # noqa
     partner2.set_password("12345678")
 
     food_1 = Food(name="Food 1", restaurant=partner1, price=6.99)
