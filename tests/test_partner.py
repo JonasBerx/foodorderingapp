@@ -208,5 +208,5 @@ class DoltTestCasePartner(unittest.TestCase):
         self.assertIn("Invalid request: Unauthorized", data)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

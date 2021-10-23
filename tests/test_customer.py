@@ -69,5 +69,5 @@ class DoltTestCaseCourier(unittest.TestCase):
         self.assertIn("Please login first", data)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

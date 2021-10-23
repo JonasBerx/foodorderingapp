@@ -1,7 +1,7 @@
 import unittest
 
 from dolt import app, db
-from dolt.models import Courier, Order, Customer, Partner, Food
+from dolt.models import Courier, Food,  Customer, Order, Partner
 
 
 class DoltTestCaseCourier(unittest.TestCase):
@@ -56,7 +56,7 @@ class DoltTestCaseCourier(unittest.TestCase):
 
         db.session.add_all([courier, customer, partner1, partner2,
                             food_a, food_b,
-                            order1, order2])
+                            order1, order2, order3])
         db.session.commit()
 
         self.client = app.test_client()
@@ -77,7 +77,7 @@ class DoltTestCaseCourier(unittest.TestCase):
 
     def test_a_courier_can_see_their_session_status(self):
         self.mock_login_courier()
-        response = self.client.get('/courier')
+        response = self.client.get("/courier")
         data = response.get_data(as_text=True)
         self.assertIn("Welcome, dear courier Test Courier!", data)
         self.assertIn("Not In Session", data)
@@ -170,5 +170,5 @@ class DoltTestCaseCourier(unittest.TestCase):
         self.assertIn("Ongoing", data)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

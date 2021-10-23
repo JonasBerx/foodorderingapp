@@ -179,5 +179,5 @@ class DoltTestCaseLogin(unittest.TestCase):
             self.assertNotIn("Settings", data)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

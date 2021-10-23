@@ -104,5 +104,5 @@ class DoltTestCaseSettings(unittest.TestCase):
         self.assertIn("Welcome, dear courier Example Name!", data)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
