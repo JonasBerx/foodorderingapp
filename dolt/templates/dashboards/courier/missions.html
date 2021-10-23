@@ -1,39 +1,40 @@
-{% extends "base.html" %} {% block content %}
-<h3>Here are your pending missions, dear courier {{ current_user.name }}!</h3>
-<div>
-  {% for mission in current_user.get_pending_missions() %}
-  <ul class="item-list">
-    <li>
-      <span class="title">At {{ mission.restaurant.name }}</span>
-      <span class="float-right">{{ mission.status.capitalize() }}</span>
-    </li>
-    {% for food in mission.foods %}
-    <li>
-      Delivery of {{ food.name }}<span class="float-right"
-        >{{ food.price | price_format }}</span
-      >
-    </li>
-    {% endfor %}
+{% extends "base.html" %}
 
-    <li>
-        {% if mission.status == 'ongoing'%}
-            <form method="post" action="{{ url_for("accept_mission", order_id=mission.id) }}">
-                <input class="btn" type="submit" name="submit" value="Accept Mission">
-            </form> 
-            <br>
-            <form method="post" action="{{ url_for("reject_mission", order_id=mission.id) }}">
-                <input class="btn" type="submit" name="submit" value="Reject Mission">
-            </form>
-        {% endif %}
+{% block content %}
+    <h3>Here are your pending missions, dear courier {{ current_user.name }}!</h3>
+    <div>
+        {% for mission in current_user.get_pending_missions() %}
+            <ul class="item-list">
+                <li>
+                    <span class="title">At {{ mission.restaurant.name }}</span>
+                    <span class="float-right">{{ mission.status.capitalize() }}</span>
+                </li>
+                {% for food in mission.foods %}
+                    <li>
+                      Delivery of {{ food.name }}
+                      <span class="float-right">{{ food.price | price_format }}</span>
+                    </li>
+                {% endfor %}
 
-        {% if mission.status == 'delivering' %}
-            <form method="post" action="">
-                <input class="btn" type="submit" name="submit" value="Order Delivered">
-            </form> 
-            <br>
-        {% endif %}
-    </li>
-  </ul>
-  {% endfor %}
-</div>
+                <li>
+                    {% if mission.status == "ongoing" %}
+                        <form method="post" action="{{ url_for("accept_mission", order_id=mission.id) }}">
+                            <input class="btn" type="submit" name="submit" value="Accept Mission">
+                        </form>
+                        <br>
+                        <form method="post" action="{{ url_for("reject_mission", order_id=mission.id) }}">
+                            <input class="btn" type="submit" name="submit" value="Reject Mission">
+                        </form>
+                    {% endif %}
+
+                    {% if mission.status == "delivering" %}
+                        <form method="post" action="">
+                            <input class="btn" type="submit" name="submit" value="Order Delivered">
+                        </form>
+                        <br>
+                    {% endif %}
+                </li>
+            </ul>
+        {% endfor %}
+    </div>
 {% endblock %}

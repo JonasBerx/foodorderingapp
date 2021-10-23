@@ -26,8 +26,11 @@ def mock(reset):
     food_2 = Food(name="Food 2", restaurant=partner1, price=7.99)
     food_a = Food(name="Food A", restaurant=partner2, price=10.99)
     food_b = Food(name="Food B", restaurant=partner2, price=12.99)
-    food_burger = Food(name="Burgers and Pancakes",
-                       restaurant=partner2, price=12.99)
+    food_burger = Food(
+        name="Burgers and Pancakes",
+        restaurant=partner2,
+        price=12.99
+    )
 
     order = Order(
         status="finished",
@@ -41,7 +44,7 @@ def mock(reset):
         status="ongoing",
         foods=[food_burger],
         customer=customer,
-        restaurant=food_1.restaurant
+        restaurant=food_burger.restaurant
     )
     order2.courier = courier
 

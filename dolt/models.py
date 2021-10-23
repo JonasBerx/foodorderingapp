@@ -30,7 +30,10 @@ class Courier(User):
     }
     id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
     session_status = db.Column(
-        db.Enum("0", "1"), nullable=False, server_default="0")
+        db.Enum("0", "1"),
+        nullable=False,
+        server_default="0"
+    )
     missions = db.relationship("Order", backref="courier", lazy=True)
 
     def in_session(self):
@@ -78,10 +81,18 @@ class Partner(User):
 
 foods = db.Table(
     "foods",
-    db.Column("food_id", db.Integer, db.ForeignKey(
-        "food.id"), primary_key=True),
-    db.Column("order_id", db.Integer, db.ForeignKey(
-        "order.id"), primary_key=True)
+    db.Column(
+        "food_id",
+        db.Integer,
+        db.ForeignKey("food.id"),
+        primary_key=True
+    ),
+    db.Column(
+        "order_id",
+        db.Integer,
+        db.ForeignKey("order.id"),
+        primary_key=True
+    )
 )
 
 
@@ -94,10 +105,16 @@ class Food(db.Model):
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.Enum("ongoing", "delivering", "finished",
-                       "cancelled"), nullable=False)
+    status = db.Column(
+        db.Enum("ongoing", "delivering", "finished", "cancelled"),
+        nullable=False
+    )
     foods = db.relationship(
-        "Food", secondary=foods, lazy="subquery", backref=db.backref("orders", lazy=True))
+        "Food",
+        secondary=foods,
+        lazy="subquery",
+        backref=db.backref("orders", lazy=True)
+    )
     partner_id = db.Column(db.Integer(), db.ForeignKey("partner.id"))
     customer_id = db.Column(db.Integer(), db.ForeignKey("customer.id"))
     courier_id = db.Column(db.Integer(), db.ForeignKey("courier.id"))

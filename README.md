@@ -10,10 +10,12 @@ Team 0 ~ Food ordering and management application using Python
 2. **FR06:** Manage order -> Employee
 3. [x] **FR07:** Accept delivery mission -> Courier
 4. [x] **FR08:** Reject delivery mission -> Courier
-3. [x] **FR09:** Start / Stop session -> Courier
-5. [x] **FR10:** Manage menu: Changing & Removing & Adding -> Partner
-6. [x] **FR14:** Login & Logout 
-7. [x] **FR15:** Profile update
+5. [x] **FR09:** Start / Stop session -> Courier
+6. [x] **FR10:** Manage menu: Changing & Removing & Adding -> Partner
+7. [x] **FR14:** Login & Logout 
+8. [x] **FR15:** Profile update
+
+Note: Since FR02's payment requirements were not selected in this Lab, we omitted the payment prompt in FR01.
 
 ## Tools
 
