@@ -75,7 +75,7 @@ class DoltTestCaseCourier(unittest.TestCase):
 
         response = self.client.post("/employee/cancel/1", follow_redirects=True)
         data = response.get_data(as_text=True)
-        self.assertIn("Order Cancelled", data)
+        self.assertIn("Order cancelled", data)
         self.assertNotIn("Ongoing", data)
 
 

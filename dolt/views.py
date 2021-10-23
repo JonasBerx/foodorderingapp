@@ -59,6 +59,15 @@ def employee():
 @app.route("/employee/cancel/<int:order_id>", methods=["POST"])
 @login_required
 def employee_cancel(order_id: int):
+    order = Order.query.filter(Order.id == order_id).first()  # noqa
+
+    if not order:
+        flash("Invalid request: Order does not exist")
+        return redirect(url_for("employee", orders=get_unfinished_orders()))
+
+    order.status = "cancelled"
+    db.session.commit()
+    flash("Order cancelled")
 
     return redirect(url_for("employee", orders=get_unfinished_orders()))
 
