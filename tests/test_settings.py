@@ -15,7 +15,7 @@ class DoltTestCaseSettings(unittest.TestCase):
 
         courier = Courier(name="COU", username="cou")  # noqa
         courier.set_password("12345")
-        customer = Customer(name="CUS", username="cus")  # noqa
+        customer = Customer(name="CUS", username="cus", address="Earth, the Solar System")  # noqa
         customer.set_password("123456")
 
         db.session.add_all([courier, customer])
@@ -104,5 +104,5 @@ class DoltTestCaseSettings(unittest.TestCase):
         self.assertIn("Welcome, dear courier Example Name!", data)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

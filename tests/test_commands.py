@@ -35,5 +35,5 @@ class DoltTestCaseCommands(unittest.TestCase):
         self.assertIn("Reset done", result.output)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -16,15 +16,12 @@
     <hr>
     {% for food in current_user.menu %}
         <ul class="item-list">
-            <li><span class="title">{{ food.name }}</span>
-                <span class="float-right">
-                    {% if current_user.type == "partner" %}
-                        <a class="btn" href="{{ url_for("partner_menu_edit", food_id=food.id) }}">Edit</a>
-                        <form class="inline-form" method="post" action="{{ url_for("partner_menu_delete", food_id=food.id) }}">
-                            <input class="btn" type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure?')">
-                        </form>
-                    {% endif %}
-                </span>
+            <li>
+                <span class="title">{{ food.name }}</span>
+                <form class="inline-form float-right" method="post" action="{{ url_for("partner_menu_delete", food_id=food.id) }}">
+                    <input class="btn" type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure?')">
+                </form>
+                <a class="btn float-right" href="{{ url_for("partner_menu_edit", food_id=food.id) }}">Edit</a>
             </li>
             <li>Price: {{ food.price | price_format }}</li>
         </ul>

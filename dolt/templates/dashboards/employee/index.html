@@ -2,4 +2,39 @@
 
 {% block content %}
     <h3>Welcome, dear employee {{ current_user.name }}!</h3>
+
+    {% for order in orders[::-1] %}
+        <ul class="item-list">
+            <li>
+                <span class="title">{{ order.restaurant.name }}</span>
+                <span class="float-right">{{ order.status.capitalize() }}</span>
+            </li>
+            {% for food in order.foods %}
+                <li>{{ food.name }}<span class="float-right">{{ food.price | price_format }}</span></li>
+            {% endfor %}
+            <li>
+                <span>Customer</span>
+                <span class="float-right">{{ order.customer.name }}</span>
+            </li>
+            <li>
+                <span>Address</span>
+                <span class="float-right">{{ order.customer.address }}</span>
+            </li>
+            <li>
+                <span>Courier</span>
+                {% if order.courier %}
+                    <span class="float-right">{{ order.courier.name }}</span>
+                {% else %}
+                    <span class="float-right">Unassigned</span>
+                {% endif %}
+            </li>
+            {% if order.status in ["ongoing", "delivering"] %}
+                <li>
+                    <form class="inline-form" method="post" action="{{ url_for("employee_cancel", order_id=order.id) }}">
+                        <input class="btn" type="submit" name="submit" value="Cancel Order" onclick="return confirm('Are you sure?')">
+                    </form>
+                </li>
+            {% endif %}
+        </ul>
+    {% endfor %}
 {% endblock %}

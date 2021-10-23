@@ -23,11 +23,8 @@
             {% if current_user.is_authenticated %}
                 {% if current_user.type and current_user.type not in ["customer", "user"] %}
                     <li><a href="{{ url_for(current_user.type) }}">Dashboard</a></li>
-                    {% if current_user.type and current_user.type == "courier" %}
-                        <li><a href="{{ url_for("missions") }}">Missions</a></li>
-                    {% endif %}
                 {% elif current_user.type and current_user.type == "customer" %}
-                    <li><a href="{{ url_for("orders") }}">Orders</a></li>                    
+                    <li><a href="{{ url_for("orders") }}">Orders</a></li>
                 {% endif %}
                 <li><a href="{{ url_for("settings") }}">Settings</a></li>
                 <li><a href="{{ url_for("logout") }}">Logout</a></li>

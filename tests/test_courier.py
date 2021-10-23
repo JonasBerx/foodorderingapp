@@ -1,7 +1,7 @@
 import unittest
 
 from dolt import app, db
-from dolt.models import Courier, Order, Customer, Partner, Food
+from dolt.models import Courier, Food,  Customer, Order, Partner
 
 
 class DoltTestCaseCourier(unittest.TestCase):
@@ -13,9 +13,9 @@ class DoltTestCaseCourier(unittest.TestCase):
         )
         db.create_all()
 
-        courier = Courier(name="COU", username="cou")  # noqa
+        courier = Courier(name="Test Courier", username="cou")  # noqa
         courier.set_password("12345")
-        customer = Customer(name="CUS", username="cus")  # noqa
+        customer = Customer(name="CUS", username="cus", address="Earth, the Solar System")  # noqa
         customer.set_password("123456")
 
         partner1 = Partner(name="Restaurant 1", username="par")  # noqa
@@ -23,8 +23,11 @@ class DoltTestCaseCourier(unittest.TestCase):
         partner2 = Partner(name="Restaurant 2", username="par2")  # noqa
         partner2.set_password("12345678")
 
-        food_a = Food(name="Burgers and Chicken",
-                      restaurant=partner1, price=10.99)
+        food_a = Food(
+            name="Burgers and Chicken",
+            restaurant=partner1,
+            price=10.99
+        )
         food_b = Food(name="Pancakes", restaurant=partner2, price=12.99)
 
         order1 = Order(
@@ -51,9 +54,13 @@ class DoltTestCaseCourier(unittest.TestCase):
         )
         order3.courier = courier
 
+        courier2 = Courier(name="Breaker", username="cou2")  # noqa
+        courier2.set_password("12345")
+
         db.session.add_all([courier, customer, partner1, partner2,
                             food_a, food_b,
-                            order1, order2])
+                            order1, order2, order3,
+                            courier2])
         db.session.commit()
 
         self.client = app.test_client()
@@ -61,6 +68,16 @@ class DoltTestCaseCourier(unittest.TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+
+    def mock_login_breaker(self):
+        self.client.post(
+            "/login",
+            data=dict(
+                username="cou2",
+                password="12345"
+            ),
+            follow_redirects=True
+        )
 
     def mock_login_courier(self):
         self.client.post(
@@ -72,17 +89,29 @@ class DoltTestCaseCourier(unittest.TestCase):
             follow_redirects=True
         )
 
+    def mock_login_customer(self):
+        self.client.post(
+            "/login",
+            data=dict(
+                username="cus",
+                password="123456",
+            ),
+            follow_redirects=True
+        )
+
     def test_a_courier_can_see_their_session_status(self):
         self.mock_login_courier()
-        response = self.client.get('/courier')
+        response = self.client.get("/courier")
         data = response.get_data(as_text=True)
-        self.assertIn("Welcome, dear courier COU!", data)
+        self.assertIn("Welcome, dear courier Test Courier!", data)
         self.assertIn("Not In Session", data)
 
     def test_a_courier_can_start_a_session(self):
         self.mock_login_courier()
         response = self.client.post(
-            "/courier/session/start", follow_redirects=True)
+            "/courier/session/start",
+            follow_redirects=True
+        )
         data = response.get_data(as_text=True)
         self.assertIn("Session Started Successfully", data)
         self.assertIn("Session in Progress", data)
@@ -90,7 +119,9 @@ class DoltTestCaseCourier(unittest.TestCase):
     def test_a_courier_can_end_a_session(self):
         self.mock_login_courier()
         response = self.client.post(
-            "/courier/session/end", follow_redirects=True)
+            "/courier/session/end",
+            follow_redirects=True
+        )
         data = response.get_data(as_text=True)
         self.assertIn("Session Ended Successfully", data)
         self.assertIn("Not In Session", data)
@@ -101,7 +132,7 @@ class DoltTestCaseCourier(unittest.TestCase):
         data = response.get_data(as_text=True)
         self.assertIn("Here are your pending missions", data)
 
-    def test_a_courier_can_see_the_missions_assinged_to_him(self):
+    def test_a_courier_can_see_the_missions_assigned_to_him(self):
         self.mock_login_courier()
         response = self.client.get("/courier/missions", follow_redirects=True)
         data = response.get_data(as_text=True)
@@ -112,7 +143,7 @@ class DoltTestCaseCourier(unittest.TestCase):
         self.assertIn("Accept Mission", data)
         self.assertIn("Reject Mission", data)
 
-    def test_a_courier_can_only_see_the_pending_missions_assinged_to_him(self):
+    def test_a_courier_can_only_see_the_pending_missions_assigned_to_him(self):
         self.mock_login_courier()
         response = self.client.get("/courier/missions", follow_redirects=True)
         data = response.get_data(as_text=True)
@@ -121,7 +152,9 @@ class DoltTestCaseCourier(unittest.TestCase):
     def test_a_courier_can_accept_a_mission(self):
         self.mock_login_courier()
         response = self.client.post(
-            "/courier/missions/1/accept", follow_redirects=True)
+            "/courier/missions/1/accept",
+            follow_redirects=True
+        )
         data = response.get_data(as_text=True)
         self.assertIn("Mission Accepted successfully", data)
         self.assertIn("Pick up Burgers and Chicken from Restaurant 1", data)
@@ -131,7 +164,9 @@ class DoltTestCaseCourier(unittest.TestCase):
     def test_a_courier_cannot_accept_an_invalid_mission(self):
         self.mock_login_courier()
         response = self.client.post(
-            "/courier/missions/100/accept", follow_redirects=True)
+            "/courier/missions/100/accept",
+            follow_redirects=True
+        )
         data = response.get_data(as_text=True)
         self.assertIn("Invalid request: Item does not exist", data)
         self.assertIn("Ongoing", data)
@@ -139,7 +174,9 @@ class DoltTestCaseCourier(unittest.TestCase):
     def test_a_courier_can_reject_a_mission(self):
         self.mock_login_courier()
         response = self.client.post(
-            "/courier/missions/1/reject", follow_redirects=True)
+            "/courier/missions/1/reject",
+            follow_redirects=True
+        )
         data = response.get_data(as_text=True)
         self.assertIn("Mission Rejected successfully", data)
         self.assertNotIn("Delivery of Burgers and Chicken", data)
@@ -149,11 +186,71 @@ class DoltTestCaseCourier(unittest.TestCase):
     def test_a_courier_cannot_reject_an_invalid_mission(self):
         self.mock_login_courier()
         response = self.client.post(
-            "/courier/missions/100/reject", follow_redirects=True)
+            "/courier/missions/100/reject",
+            follow_redirects=True
+        )
         data = response.get_data(as_text=True)
         self.assertIn("Invalid request: Item does not exist", data)
         self.assertIn("Ongoing", data)
 
+    def test_dashboard_auth_check(self):
+        self.mock_login_customer()
+        response = self.client.get("/courier", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Start Session", data)
 
-if __name__ == '__main__':
+    def test_session_start_auth_check(self):
+        self.mock_login_customer()
+        response = self.client.post("/courier/session/start", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Session Started Successfully", data)
+
+    def test_session_end_auth_check(self):
+        self.mock_login_customer()
+        response = self.client.post("/courier/session/end", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Session Ended Successfully", data)
+
+    def test_missions_auth_check(self):
+        self.mock_login_customer()
+        response = self.client.get("/courier/missions", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Accept", data)
+
+    def test_mission_accept_auth_check(self):
+        self.mock_login_customer()
+        response = self.client.post(
+            "/courier/missions/1/accept",
+            follow_redirects=True
+        )
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Mission Accepted successfully", data)
+
+    def test_mission_reject_auth_check(self):
+        self.mock_login_customer()
+        response = self.client.post(
+            "/courier/missions/1/reject",
+            follow_redirects=True
+        )
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Mission Rejected successfully", data)
+
+    def test_fake_request_by_other_couriers(self):
+        self.mock_login_breaker()
+        response = self.client.post(
+            "/courier/missions/1/reject",
+            follow_redirects=True
+        )
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Mission Rejected successfully", data)
+
+
+if __name__ == "__main__":
     unittest.main()

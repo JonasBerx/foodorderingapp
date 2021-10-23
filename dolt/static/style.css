@@ -106,12 +106,13 @@ input[type=text] input[type=password] {
 }
 
 .inline-form {
-    display: inline;
+    display: inline-block;
 }
 
 .item-list li span.price {
     font-size: 12px;
-    margin-right: 5px;
+    margin-right: 6px;
+    margin-top: 3px;
 }
 
 .order {
