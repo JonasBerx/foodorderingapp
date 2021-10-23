@@ -107,6 +107,7 @@ input[type=text] input[type=password] {
 
 .inline-form {
     display: inline-block;
+    margin-left: 3px;
 }
 
 .item-list li span.price {
