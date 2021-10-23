@@ -27,6 +27,7 @@ def order(food_id: int):
     db.session.add(new_order)
     db.session.commit()
     flash("Order created")
+
     return redirect(url_for("orders"))
 
 

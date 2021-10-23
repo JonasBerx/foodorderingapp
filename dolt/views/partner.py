@@ -1,9 +1,24 @@
+from typing import Optional, Tuple
+
 from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 
 from dolt import app, db
 from dolt.models import Food
 from dolt.utils import get_float
+
+
+def check_food_authentication(food_id: int) -> Tuple[bool, Optional[Food]]:
+    food = Food.query.filter(Food.id == food_id).first()  # noqa
+
+    if not food:
+        flash("Invalid request: Item does not exist")
+        return False, None
+    elif food.restaurant != current_user:
+        flash("Invalid request: Unauthorized")
+        return False, None
+
+    return True, food
 
 
 @app.route("/partner")
@@ -46,16 +61,12 @@ def partner_menu():
 @app.route("/partner/menu/delete/<int:food_id>", methods=["POST"])
 @login_required
 def partner_menu_delete(food_id: int):
-    if current_user.type != "partner":  # noqa
+    if current_user.type != "partner":
         return redirect(url_for("index"))
 
-    food = Food.query.filter(Food.id == food_id).first()  # noqa
+    auth, food = check_food_authentication(food_id)
 
-    if not food:
-        flash("Invalid request: Item does not exist")
-        return redirect(url_for("partner_menu"))
-    elif food.restaurant != current_user:
-        flash("Invalid request: Unauthorized")
+    if not auth:
         return redirect(url_for("partner_menu"))
 
     db.session.delete(food)
@@ -67,16 +78,12 @@ def partner_menu_delete(food_id: int):
 @app.route("/partner/menu/edit/<int:food_id>", methods=["GET", "POST"])
 @login_required
 def partner_menu_edit(food_id: int):
-    if current_user.type != "partner":  # noqa
+    if current_user.type != "partner":
         return redirect(url_for("index"))
 
-    food = Food.query.filter(Food.id == food_id).first()  # noqa
+    auth, food = check_food_authentication(food_id)
 
-    if not food:
-        flash("Invalid request: Item does not exist")
-        return redirect(url_for("partner_menu"))
-    elif food.restaurant != current_user:
-        flash("Invalid request: Unauthorized")
+    if not auth:
         return redirect(url_for("partner_menu"))
 
     if request.method != "POST":

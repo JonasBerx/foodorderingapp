@@ -12,10 +12,9 @@ def employee():
     if current_user.type != "employee":
         return redirect(url_for("index"))
 
-    available_orders = get_unfinished_orders()
     return render_template(
         "dashboards/employee/index.html",
-        orders=available_orders
+        orders=get_unfinished_orders()
     )
 
 
