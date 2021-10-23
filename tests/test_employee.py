@@ -57,7 +57,7 @@ class DoltTestCaseCourier(unittest.TestCase):
             follow_redirects=True
         )
 
-    def test_get_ongoing_orders(self):
+    def test_get_unfinished_orders(self):
         self.mock_login_employee()
         response = self.client.get("/employee")
         data = response.get_data(as_text=True)
@@ -69,6 +69,14 @@ class DoltTestCaseCourier(unittest.TestCase):
         self.assertIn("Burgers and Chicken", data)
         self.assertIn("Homer Simpson", data)
         self.assertIn("Cancel", data)
+
+    def test_cancel_order(self):
+        self.mock_login_employee()
+
+        response = self.client.post("/employee/cancel/1", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Order Cancelled", data)
+        self.assertNotIn("Ongoing", data)
 
 
 if __name__ == "__main__":

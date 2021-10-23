@@ -28,11 +28,13 @@
                     <span class="float-right">Unassigned</span>
                 {% endif %}
             </li>
-            <li>
-                <form class="inline-form" method="post" action="{{ url_for("employee_cancel", order_id=order.id) }}">
-                    <input class="btn" type="submit" name="submit" value="Cancel Order">
-                </form>
-            </li>
+            {% if order.status in ["ongoing", "delivering"] %}
+                <li>
+                    <form class="inline-form" method="post" action="{{ url_for("employee_cancel", order_id=order.id) }}">
+                        <input class="btn" type="submit" name="submit" value="Cancel Order" onclick="return confirm('Are you sure?')">
+                    </form>
+                </li>
+            {% endif %}
         </ul>
     {% endfor %}
 {% endblock %}

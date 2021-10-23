@@ -4,7 +4,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from dolt import app, db, login_manager
 from dolt.errors import bad_request
 from dolt.models import Food, Order, Partner, User
-from dolt.utils import get_float
+from dolt.utils import get_float, get_unfinished_orders
 
 
 @app.route("/")
@@ -50,16 +50,17 @@ def orders():
 @app.route("/employee")
 @login_required
 def employee():
-    ongoing_orders = Order.query.filter(Order.status == "ongoing").all()
-    delivering_orders = Order.query.filter(Order.status == "delivering").all()
-    return render_template("dashboards/employee/index.html", orders=ongoing_orders + delivering_orders)
+    return render_template(
+        "dashboards/employee/index.html",
+        orders=get_unfinished_orders()
+    )
 
 
-@app.route("/employee_cancel/<int:order_id>")
+@app.route("/employee/cancel/<int:order_id>", methods=["POST"])
 @login_required
 def employee_cancel(order_id: int):
-    ongoing_orders = Order.query.filter(Order.status == "ongoing").all()
-    return render_template("dashboards/employee/index.html", orders=ongoing_orders)
+
+    return redirect(url_for("employee", orders=get_unfinished_orders()))
 
 
 @app.route("/partner")
@@ -89,6 +90,7 @@ def partner_menu():
     db.session.add(food)
     db.session.commit()
     flash("Item added")
+
     return redirect(url_for("partner_menu"))
 
 
