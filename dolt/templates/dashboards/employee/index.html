@@ -3,7 +3,7 @@
 {% block content %}
     <h3>Welcome, dear employee {{ current_user.name }}!</h3>
 
-    {% for order in orders[::-1] %}
+    {% for order in orders %}
         <ul class="item-list">
             <li>
                 <span class="title">{{ order.restaurant.name }}</span>
