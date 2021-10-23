@@ -9,7 +9,7 @@ from dolt.models import Courier, Customer, Employee, Food, Order, Partner
 def mock(reset):
     # Generate the local test data
     reset and db.drop_all()
-    db.create_all()
+    db.create_all()  # noqa
 
     courier = Courier(name="Homer Simpson", username="cou")  # noqa
     courier.set_password("12345")
