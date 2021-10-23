@@ -57,6 +57,16 @@ class DoltTestCaseCourier(unittest.TestCase):
             follow_redirects=True
         )
 
+    def mock_login_courier(self):
+        self.client.post(
+            "/login",
+            data=dict(
+                username="cou",
+                password="12345"
+            ),
+            follow_redirects=True
+        )
+
     def test_get_unfinished_orders(self):
         self.mock_login_employee()
         response = self.client.get("/employee")
@@ -72,11 +82,31 @@ class DoltTestCaseCourier(unittest.TestCase):
 
     def test_cancel_order(self):
         self.mock_login_employee()
-
         response = self.client.post("/employee/cancel/1", follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertIn("Order cancelled", data)
         self.assertNotIn("Ongoing", data)
+
+    def test_cancel_invalid_order(self):
+        self.mock_login_employee()
+        response = self.client.post("/employee/cancel/2", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Order does not exist", data)
+        self.assertNotIn("Order cancelled", data)
+
+    def test_dashboard_auth_check(self):
+        self.mock_login_courier()
+        response = self.client.get("/employee", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("dear employee", data)
+
+    def test_cancel_order_auth_check(self):
+        self.mock_login_courier()
+        response = self.client.post("/employee/cancel/1", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Order cancelled", data)
 
 
 if __name__ == "__main__":

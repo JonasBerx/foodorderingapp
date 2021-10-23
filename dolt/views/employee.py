@@ -10,6 +10,7 @@ from dolt.utils import get_unfinished_orders
 @login_required
 def employee():
     if current_user.type != "employee":
+        flash("Invalid request: Unauthorized")
         return redirect(url_for("index"))
 
     return render_template(
@@ -22,6 +23,7 @@ def employee():
 @login_required
 def employee_cancel(order_id: int):
     if current_user.type != "employee":
+        flash("Invalid request: Unauthorized")
         return redirect(url_for("index"))
 
     order = Order.query.filter(Order.id == order_id).first()  # noqa
