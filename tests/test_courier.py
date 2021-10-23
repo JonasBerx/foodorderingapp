@@ -54,9 +54,13 @@ class DoltTestCaseCourier(unittest.TestCase):
         )
         order3.courier = courier
 
+        courier2 = Courier(name="Breaker", username="cou2")  # noqa
+        courier2.set_password("12345")
+
         db.session.add_all([courier, customer, partner1, partner2,
                             food_a, food_b,
-                            order1, order2, order3])
+                            order1, order2, order3,
+                            courier2])
         db.session.commit()
 
         self.client = app.test_client()
@@ -65,12 +69,32 @@ class DoltTestCaseCourier(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
+    def mock_login_breaker(self):
+        self.client.post(
+            "/login",
+            data=dict(
+                username="cou2",
+                password="12345"
+            ),
+            follow_redirects=True
+        )
+
     def mock_login_courier(self):
         self.client.post(
             "/login",
             data=dict(
                 username="cou",
                 password="12345"
+            ),
+            follow_redirects=True
+        )
+
+    def mock_login_customer(self):
+        self.client.post(
+            "/login",
+            data=dict(
+                username="cus",
+                password="123456",
             ),
             follow_redirects=True
         )
@@ -168,6 +192,64 @@ class DoltTestCaseCourier(unittest.TestCase):
         data = response.get_data(as_text=True)
         self.assertIn("Invalid request: Item does not exist", data)
         self.assertIn("Ongoing", data)
+
+    def test_dashboard_auth_check(self):
+        self.mock_login_customer()
+        response = self.client.get("/courier", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Start Session", data)
+
+    def test_session_start_auth_check(self):
+        self.mock_login_customer()
+        response = self.client.post("/courier/session/start", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Session Started Successfully", data)
+
+    def test_session_end_auth_check(self):
+        self.mock_login_customer()
+        response = self.client.post("/courier/session/end", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Session Ended Successfully", data)
+
+    def test_missions_auth_check(self):
+        self.mock_login_customer()
+        response = self.client.get("/courier/missions", follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Accept", data)
+
+    def test_mission_accept_auth_check(self):
+        self.mock_login_customer()
+        response = self.client.post(
+            "/courier/missions/1/accept",
+            follow_redirects=True
+        )
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Mission Accepted successfully", data)
+
+    def test_mission_reject_auth_check(self):
+        self.mock_login_customer()
+        response = self.client.post(
+            "/courier/missions/1/reject",
+            follow_redirects=True
+        )
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Mission Rejected successfully", data)
+
+    def test_fake_request_by_other_couriers(self):
+        self.mock_login_breaker()
+        response = self.client.post(
+            "/courier/missions/1/reject",
+            follow_redirects=True
+        )
+        data = response.get_data(as_text=True)
+        self.assertIn("Invalid request: Unauthorized", data)
+        self.assertNotIn("Mission Rejected successfully", data)
 
 
 if __name__ == "__main__":

@@ -24,6 +24,7 @@ def check_order_authentication(order_id: int) -> Tuple[bool, Optional[Order]]:
 @login_required
 def courier():
     if current_user.type != "courier":
+        flash("Invalid request: Unauthorized")
         return redirect(url_for("index"))
 
     return render_template("dashboards/courier/index.html")
@@ -33,6 +34,7 @@ def courier():
 @login_required
 def missions():
     if current_user.type != "courier":
+        flash("Invalid request: Unauthorized")
         return redirect(url_for("index"))
 
     return render_template("dashboards/courier/missions.html")
@@ -42,6 +44,7 @@ def missions():
 @login_required
 def accept_mission(order_id: id):
     if current_user.type != "courier":
+        flash("Invalid request: Unauthorized")
         return redirect(url_for("index"))
 
     auth, the_order = check_order_authentication(order_id)
@@ -62,6 +65,7 @@ def accept_mission(order_id: id):
 @login_required
 def reject_mission(order_id: id):
     if current_user.type != "courier":
+        flash("Invalid request: Unauthorized")
         return redirect(url_for("index"))
 
     auth, the_order = check_order_authentication(order_id)
@@ -70,15 +74,7 @@ def reject_mission(order_id: id):
         return redirect(url_for("missions"))
 
     the_order = Order.query.filter(Order.id == order_id).first()
-
-    if not the_order:
-        flash("Invalid request: Item does not exist")
-        return redirect(url_for("missions"))
-    elif the_order.courier != current_user:
-        flash("Invalid request: Unauthorized")
-        return redirect(url_for("missions"))
-
-    the_order.courier_id = None
+    the_order.courier = None
     db.session.commit()
     flash("Mission Rejected successfully")
 
@@ -89,6 +85,7 @@ def reject_mission(order_id: id):
 @login_required
 def start_new_session():
     if current_user.type != "courier":
+        flash("Invalid request: Unauthorized")
         return redirect(url_for("index"))
 
     current_user.start_session()
@@ -102,6 +99,7 @@ def start_new_session():
 @login_required
 def end_current_session():
     if current_user.type != "courier":
+        flash("Invalid request: Unauthorized")
         return redirect(url_for("index"))
 
     current_user.end_session()
