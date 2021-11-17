@@ -4,6 +4,8 @@
 
 Team 0 ~ Food ordering and management application using Python
 
+## Lab3 functional tests on the system can be found in the "functional_tests" folder!
+
 ## Requirements chosen
 
 1. [x] **FR01:** Place order -> Customer
