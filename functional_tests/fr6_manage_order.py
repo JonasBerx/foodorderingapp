@@ -9,7 +9,7 @@ class FrManageOrder(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
 
-    def test_place_order_existing_item(self):
+    def test_manage_order_cancel_existing_item(self):
         driver = self.driver
         driver.get("http://127.0.0.1:5000/")
         assert "ᗺolt Food" in driver.title
@@ -29,15 +29,15 @@ class FrManageOrder(unittest.TestCase):
         alert = driver.find_element_by_xpath("/html/body/div[1]")
         assert alert.text == 'Order cancelled'
 
-    def test_place_order_non_existing_item(self):
+    def test_manage_order_cancel_non_existing_item(self):
         driver = self.driver
         driver.get("http://127.0.0.1:5000/")
         assert "ᗺolt Food" in driver.title
         driver.get("http://127.0.0.1:5000/login")
         username = driver.find_element_by_id("unm")
-        username.send_keys("cus")
+        username.send_keys("emp")
         password = driver.find_element_by_id("pwd")
-        password.send_keys("123456")
+        password.send_keys("1234567")
         driver.find_element_by_name("submit").click()
         alert = driver.find_element_by_xpath("/html/body/div[1]")
         assert alert.text == 'Login succeeded'

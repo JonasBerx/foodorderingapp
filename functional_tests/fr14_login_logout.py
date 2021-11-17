@@ -9,7 +9,7 @@ class FrLoginLogout(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
 
-    def test_valid_inputs(self):
+    def test_valid_inputs_login(self):
         driver = self.driver
         driver.get("http://127.0.0.1:5000/")
         assert "ᗺolt Food" in driver.title
@@ -22,7 +22,7 @@ class FrLoginLogout(unittest.TestCase):
         alert = driver.find_element_by_xpath("/html/body/div[1]")
         assert alert.text == 'Login succeeded'
 
-    def test_invalid_username_valid_password(self):
+    def test_invalid_username_valid_password_login(self):
         driver = self.driver
         driver.get("http://127.0.0.1:5000/")
         assert "ᗺolt Food" in driver.title
@@ -35,7 +35,7 @@ class FrLoginLogout(unittest.TestCase):
         alert = driver.find_element_by_xpath("/html/body/div[1]")
         assert alert.text == 'Invalid username or password'
 
-    def test_valid_username_invalid_password(self):
+    def test_valid_username_invalid_password_login(self):
         driver = self.driver
         driver.get("http://127.0.0.1:5000/")
         assert "ᗺolt Food" in driver.title
@@ -48,7 +48,7 @@ class FrLoginLogout(unittest.TestCase):
         alert = driver.find_element_by_xpath("/html/body/div[1]")
         assert alert.text == 'Invalid username or password'
 
-    def test_invalid_username_invalid_password(self):
+    def test_invalid_username_invalid_password_login(self):
         driver = self.driver
         driver.get("http://127.0.0.1:5000/")
         assert "ᗺolt Food" in driver.title
@@ -61,7 +61,7 @@ class FrLoginLogout(unittest.TestCase):
         alert = driver.find_element_by_xpath("/html/body/div[1]")
         assert alert.text == 'Invalid username or password'
 
-    def test_empty_username_empty_password(self):
+    def test_empty_username_empty_password_login(self):
         driver = self.driver
         driver.get("http://127.0.0.1:5000/")
         assert "ᗺolt Food" in driver.title

@@ -25,8 +25,7 @@ class FrStartStopSession(unittest.TestCase):
         try:
             driver.get("http://127.0.0.1:5000/courier")
             if driver.find_element_by_xpath("/html/body/div/div/text()").text == "Session in Progress":
-                True
-                print("Already in session, stopping session")
+                # print("Already in session, stopping session")
                 driver.find_element_by_xpath(
                     "/html/body/div[2]/div/form[2]/input").click()
 
