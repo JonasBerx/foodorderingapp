@@ -28,7 +28,7 @@ class FrManageMenu(unittest.TestCase):
 
         invalid_post_request = """
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://127.0.0.1:5000/partner/menu", false);
+            xhr.open("POST", "http://127.0.0.1:5000/partner/menu/delete/1", false);
             xhr.setRequestHeader(
                 "Content-type", "application/x-www-form-urlencoded");
 
