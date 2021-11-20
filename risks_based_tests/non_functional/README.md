@@ -1,9 +1,30 @@
-# Non-functional tests
+# Non-functional Tests
 
-We use locust as the testing tool, please install it first:
+## Setup
+
+We use `locust` as the testing tool, please install it first:
 
 ```bash
 pip install locust
+```
+
+Quick guide:
+
+```bash
+git clone https://github.com/JonasBerx/foodorderingapp.git
+cd foodorderingapp
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+flask mock --reset
+flask run
+```
+
+Then open another terminal in this path.
+
+```bash
+cd risks_based_tests/non_functional
 ```
 
 ## Test 1
