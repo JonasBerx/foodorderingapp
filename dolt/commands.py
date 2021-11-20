@@ -46,12 +46,14 @@ def mock(reset):
         customer=customer,
         restaurant=food_burger.restaurant
     )
-    order2.courier = courier
+    courier2 = Courier(name="Homer Simpson 2", username="cou2")  # noqa
+    courier2.set_password("12345")
+    order2.courier = courier2
 
     db.session.add_all(
         [courier, customer, employee, partner1, partner2,
          food_1, food_2, food_a, food_b, food_burger,
-         order, order2]
+         order, order2, courier2]
     )
     db.session.commit()
 
