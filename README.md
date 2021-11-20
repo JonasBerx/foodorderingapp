@@ -1,12 +1,20 @@
 # foodorderingapp
 
+## Lab 03
+
+- [Functional Tests](./functional_tests)
+
+- [Risks Based Acceptance Tests](./risks_based_tests)
+
+---
+
+## Lab 02
+
 [![Test](https://github.com/JonasBerx/foodorderingapp/actions/workflows/python-test.yml/badge.svg)](https://github.com/JonasBerx/foodorderingapp/actions/workflows/python-test.yml)
 
 Team 0 ~ Food ordering and management application using Python
 
-## Lab3 functional tests on the system can be found in the "functional_tests" folder!
-
-## Requirements chosen
+### Requirements chosen
 
 1. [x] **FR01:** Place order -> Customer
 2. [x] **FR06:** Manage order -> Employee
@@ -19,7 +27,7 @@ Team 0 ~ Food ordering and management application using Python
 
 Note: Since FR02's payment requirements were not selected in this Lab, we omitted the payment prompt in FR01.
 
-## Tools
+### Tools
 
 - VCS: GitHub
 - Programming Language: Python
@@ -27,13 +35,13 @@ Note: Since FR02's payment requirements were not selected in this Lab, we omitte
 - Unit Test Tool: unittest
 - TDD protocol tracking: [GitHub Actions](https://github.com/JonasBerx/foodorderingapp/actions/workflows/python-test.yml)
 
-## How to run the program
+### How to run the program
 
-### Requirements
+#### Requirements
 
 - Python: 3.6 or above
 
-### Environment
+#### Environment
 
 ```bash
 git clone https://github.com/JonasBerx/foodorderingapp.git
@@ -44,7 +52,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### Setup
+#### Setup
 
 ```bash
 flask mock
@@ -56,13 +64,13 @@ Please reset the database if its structure changes:
 flask mock --reset
 ```
 
-### Run
+#### Run
 
 ```bash
 flask run
 ```
 
-### Test accounts
+#### Test accounts
 
 - Courier:
     - username: `cou`
@@ -78,13 +86,13 @@ flask run
     - password: `12345678`
 
 
-### Unittest 
+#### Unittest 
 
 ```bash
 python -m unittest
 ```
 
-### Coverage 
+#### Coverage 
 
 ```bash
 coverage run --source=dolt -m unittest
