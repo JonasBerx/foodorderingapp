@@ -40,6 +40,8 @@ Number of users (peak concurrency): `10`
 
 Spawn rate (users added/stopped per second): `1`
 
+Result:
+
 ![](images/test2/0.png)
 
 ![](images/test2/1.png)
@@ -60,6 +62,8 @@ Number of users (peak concurrency): `100`
 
 Spawn rate (users added/stopped per second): `100`
 
+Result:
+
 ![](images/test3/0.png)
 
 ![](images/test3/1.png)
@@ -74,7 +78,7 @@ Initial system load (application is not running):
 
 ![](images/test4/0.png)
 
-10 users operating simultaneously:
+100 users operating simultaneously:
 
 Terminal 1:
 
@@ -185,6 +189,8 @@ Result:
 
 Based on risk: R9 - Poor code quality
 
-Since the test coverage of code is one of the factors that infer the quality of the code, we conducted a coverage test:
+Since the test coverage of code is one of the factors that infer the quality of the code, we conducted a coverage test.
+
+Result:
 
 ![](images/test8/0.png)
